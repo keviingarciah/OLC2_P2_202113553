@@ -76,3 +76,9 @@ a {
   justify-content: center;
   align-items: center;
 }
+
+/* Barrs */
+/* Ocultar barras de desplazamiento en el body */
+body {
+  overflow: hidden;
+}
