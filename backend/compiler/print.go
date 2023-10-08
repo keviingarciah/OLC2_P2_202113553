@@ -13,10 +13,16 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 		expression := v.Visit(ctx.Expr(i)).(structures.Primitive)
 
 		if expression.GetDataType() == IntType || expression.GetDataType() == FloatType {
-			v.Generator.AddPrintf("d", "(int)"+fmt.Sprintf("%v", expression.Value))
+			// Agregar comentario
+			v.Generator.AddComment("-------Print Entero o Float-------")
+
+			v.Generator.AddPrintf("d", "(int)"+fmt.Sprintf("%v", expression.GetValue()))
 			v.Generator.AddPrintf("c", "10")
 			v.Generator.AddBr()
 		} else if expression.GetDataType() == StringType {
+			// Agregar comentario
+			v.Generator.AddComment("-------Print String-------")
+
 			//llamar a generar printstring
 			v.Generator.PrintString()
 			//agregar codigo en el main
@@ -33,8 +39,37 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			v.Generator.AddPrintf("c", "10")                                 //salto de linea
 			v.Generator.AddBr()
 		} else if expression.GetDataType() == CharacterType {
-			v.Generator.AddPrintf("c", "(int)"+fmt.Sprintf("%v", expression.Value))
+			// Agregar comentario
+			v.Generator.AddComment("-------Print Character-------")
+
+			v.Generator.AddPrintf("c", "(int)"+fmt.Sprintf("%v", expression.GetValue()))
 			v.Generator.AddPrintf("c", "10")
+			v.Generator.AddBr()
+		} else if expression.GetDataType() == BooleanType {
+			// Agregar comentario
+			v.Generator.AddComment("-------Print Bool-------")
+
+			// Validación para los booleanos
+			lvl1 := v.Generator.NewLabel()
+			lvl2 := v.Generator.NewLabel()
+
+			v.Generator.AddIf(expression.GetValue(), "1", "!=", lvl1)
+			v.Generator.AddPrintf("c", "116")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddPrintf("c", "117")
+			v.Generator.AddPrintf("c", "101")
+			v.Generator.AddGoto(lvl2)
+			v.Generator.AddLabel(lvl1)
+
+			v.Generator.AddPrintf("c", "102")
+			v.Generator.AddPrintf("c", "97")
+			v.Generator.AddPrintf("c", "108")
+			v.Generator.AddPrintf("c", "115")
+			v.Generator.AddPrintf("c", "101")
+			v.Generator.AddLabel(lvl2)
+
+			v.Generator.AddPrintf("c", "10")
+
 			v.Generator.AddBr()
 		}
 	}

@@ -23,12 +23,18 @@ func (v *Visitor) VisitDigitExpr(ctx *parser.DigitExprContext) interface{} {
 
 	// Evalue if the digit has a . to know if it is a float or an integer
 	if strings.Contains(digit, ".") {
+		// Agrergar comentario
+		v.Generator.AddComment("-----Int Primitivo-----")
+
 		return structures.Primitive{
 			Value:      digit,
 			DataType:   FloatType,
 			IsTemporal: false,
 		}
 	} else {
+		// Agrergar comentario
+		//v.Generator.AddComment("-----Float Primitivo-----")
+
 		return structures.Primitive{
 			Value:      digit,
 			DataType:   IntType,
@@ -40,14 +46,20 @@ func (v *Visitor) VisitDigitExpr(ctx *parser.DigitExprContext) interface{} {
 func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 	str := strings.Trim(ctx.GetText(), "\"") // get the string
 	if len(str) == 1 {
+		// Agrergar comentario
+		//v.Generator.AddComment("-----Character Primitivo-----")
+
 		char := strconv.Itoa(int(str[0]))
 
 		return structures.Primitive{
 			Value:      char,
 			DataType:   CharacterType, // Puedes definir el tipo de dato según tus necesidades
-			IsTemporal: true,
+			IsTemporal: false,
 		}
 	} else {
+		// Agrergar comentario
+		v.Generator.AddComment("-----String Primitivo-----")
+
 		//nuevo temporal
 		newTemp := v.Generator.NewTemp()
 		//iguala a heap pointer
@@ -74,7 +86,10 @@ func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 }
 
 func (v *Visitor) VisitBooleanExpr(ctx *parser.BooleanExprContext) interface{} {
-	boolean := ctx.GetText() // get the digit
+	// Agrergar comentario
+	v.Generator.AddComment("-----Bool Primitivo-----")
+
+	boolean := ctx.GetText()
 
 	if boolean == "true" {
 		//nuevo temporal

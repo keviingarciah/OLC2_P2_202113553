@@ -11,8 +11,10 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 	// Get the operator
 	sign := ctx.GetOp().GetText()
 
+	// Crear un nuevo temporal
 	newTemp := v.Generator.NewTemp()
 
+	// Operaciones aritméticas
 	switch sign {
 	case "%":
 		// Agregar comentario
@@ -216,11 +218,17 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
-		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
-			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType) {
+		if ((leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
+			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType)) ||
+			(leftValue.GetDataType() == StringType && rightValue.GetDataType() == StringType) {
 
-			// Agregar la expresión a la lista de expresiones
-			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "+")
+			// GEneracion C3D
+			if leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType {
+				// Agregar la expresión a la lista de expresiones
+				v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "+")
+			} else {
+				fmt.Println("Suma de strings")
+			}
 
 			// Realizar la operación de multiplicación
 			var resultValue string
@@ -231,11 +239,14 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				leftInt, _ := strconv.Atoi(leftValue.GetValue())
 				rightInt, _ := strconv.Atoi(rightValue.GetValue())
 				resultValue = strconv.Itoa(leftInt + rightInt)
-			} else {
+			} else if dataType == FloatType {
 				fmt.Print("Suma de floats")
 				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
 				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
 				resultValue = strconv.FormatFloat(leftFloat+rightFloat, 'f', 4, 64)
+			} else {
+				fmt.Print("Suma de Strings")
+				resultValue = leftValue.GetValue() + rightValue.GetValue()
 			}
 
 			return structures.Primitive{
