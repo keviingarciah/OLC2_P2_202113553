@@ -18,7 +18,7 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			v.Generator.AddBr()
 		} else if expression.GetDataType() == StringType {
 			//llamar a generar printstring
-			v.Generator.GeneratePrintString()
+			v.Generator.PrintString()
 			//agregar codigo en el main
 			newTemp1 := v.Generator.NewTemp()
 			newTemp2 := v.Generator.NewTemp()

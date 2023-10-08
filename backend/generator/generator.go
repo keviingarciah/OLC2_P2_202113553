@@ -8,21 +8,27 @@ type Generator struct {
 	// Variables
 	Temporal int
 	Label    int
+
 	// Lists
 	TempList []interface{}
+
+	// Special Temporal
+	BooleanTemp string
+
 	// Code
 	Code      []interface{}
 	FinalCode []interface{}
 	Natives   []interface{}
 	FuncCode  []interface{}
-	// Boolean Temporal
-	BooleanTemp string
-	// Print Flags
+
+	// Native Flags
 	PrintStringFlag  bool
 	PrintBooleanFlag bool
 
+	// Transfers
 	BreakLabel    string
 	ContinueLabel string
+
 	// Main Code Flag
 	MainCode bool
 }
@@ -234,7 +240,7 @@ func (g *Generator) GenerateFinalCode() {
 	g.FinalCode = append(g.FinalCode, "\n\treturn 0;\n}\n")
 }
 
-func (g *Generator) GeneratePrintString() {
+func (g *Generator) PrintString() {
 	if g.PrintStringFlag {
 		//generando temporales y etiquetas
 		newTemp1 := g.NewTemp()

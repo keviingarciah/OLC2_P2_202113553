@@ -15,25 +15,81 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 
 	switch sign {
 	case "%":
-		/*
-			// Check for division by zero
-			if rightValue.GetValue() == 0 {
+		// Agregar comentario
+		v.Generator.AddComment("-----Módulo-----")
+
+		// Obtener los valores izquierdo y derecho
+		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
+		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Verificar si ambos operandos son de tipo IntType o FloatType
+		if (leftValue.GetDataType() == IntType) &&
+			(rightValue.GetDataType() == IntType) {
+
+			// Validación para división entre cero en C3D
+			lvl1 := v.Generator.NewLabel()
+			lvl2 := v.Generator.NewLabel()
+
+			v.Generator.AddIf(rightValue.GetValue(), "0", "!=", lvl1)
+			v.Generator.AddPrintf("c", "77")
+			v.Generator.AddPrintf("c", "97")
+			v.Generator.AddPrintf("c", "116")
+			v.Generator.AddPrintf("c", "104")
+			v.Generator.AddPrintf("c", "69")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddPrintf("c", "111")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddPrintf("c", "10")
+			//v.Generator.AddExpression(newTemp, "0", "", "")
+			v.Generator.AddAssign(newTemp, "0")
+			v.Generator.AddGoto(lvl2)
+			v.Generator.AddLabel(lvl1)
+			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "%")
+			v.Generator.AddLabel(lvl2)
+
+			// Verificar si el divisor es cero
+			if rightValue.GetValue() == "0" {
+				fmt.Print("ERROR: No se puede modular entre cero")
+				/*
+					v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+						Line:    ctx.GetStart().GetLine(),
+						Column:  ctx.GetStart().GetColumn(),
+						Message: "No se puede multiplicar",
+					})
+				*/
+				return structures.Primitive{
+					Value:    "Nil",
+					DataType: NilType,
+				}
+			}
+
+			// Realizar la operación de modulo
+			var resultValue string
+			dataType := leftValue.GetDataType()
+
+			leftInt, _ := strconv.Atoi(leftValue.GetValue())
+			rightInt, _ := strconv.Atoi(rightValue.GetValue())
+			resultValue = strconv.Itoa(leftInt % rightInt)
+
+			return structures.Primitive{
+				Value:    resultValue,
+				DataType: dataType,
+			}
+		} else {
+			fmt.Print("ERROR: No se realizar el módulo")
+			/*
 				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
 					Line:    ctx.GetStart().GetLine(),
 					Column:  ctx.GetStart().GetColumn(),
-					Message: "Division by zero",
+					Message: "No se puede multiplicar",
 				})
-				//fmt.Println("Error: Division by zero")
-
-				return &NilPrimitive{Value: nil}
-			}
-
-			if leftValue.GetType() == "Int" && rightValue.GetType() == "Int" {
-				return &IntPrimitive{Value: leftValue.GetValue().(int64) % rightValue.GetValue().(int64)}
-			}
-		*/
-
+			*/
+		}
 	case "*":
+		// Agregar comentario
+		v.Generator.AddComment("-----Multiplicación-----")
+
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
@@ -74,22 +130,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			*/
 		}
 	case "/":
+		// Agregar comentario
+		v.Generator.AddComment("-----División-----")
+
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
-
-		// Verificar si el divisor es cero
-		if rightValue.GetValue() == "0" {
-			fmt.Print("ERROR: No se puede dividir entre cero")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
-			return nil
-		}
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
@@ -109,11 +155,29 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			v.Generator.AddPrintf("c", "114")
 			v.Generator.AddPrintf("c", "111")
 			v.Generator.AddPrintf("c", "114")
-			v.Generator.AddExpression(newTemp, "0", "", "")
+			v.Generator.AddPrintf("c", "10")
+			//v.Generator.AddExpression(newTemp, "0", "", "")
+			v.Generator.AddAssign(newTemp, "0")
 			v.Generator.AddGoto(lvl2)
 			v.Generator.AddLabel(lvl1)
 			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "/")
 			v.Generator.AddLabel(lvl2)
+
+			// Verificar si el divisor es cero
+			if rightValue.GetValue() == "0" {
+				fmt.Print("ERROR: No se puede dividir entre cero")
+				/*
+					v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+						Line:    ctx.GetStart().GetLine(),
+						Column:  ctx.GetStart().GetColumn(),
+						Message: "No se puede multiplicar",
+					})
+				*/
+				return structures.Primitive{
+					Value:    "Nil",
+					DataType: NilType,
+				}
+			}
 
 			// Realizar la operación de división
 			var resultValue string
@@ -144,6 +208,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			*/
 		}
 	case "+":
+		// Agregar comentario
+		v.Generator.AddComment("-----Suma-----")
+
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
@@ -186,6 +253,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			*/
 		}
 	case "-":
+		// Agregar comentario
+		v.Generator.AddComment("-----Resta-----")
+
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
