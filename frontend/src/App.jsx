@@ -140,16 +140,16 @@ function App() {
       })
       .then(function (response) {
         //console.log(response.data.Output);
-        console.log(response.data.Cst);
+        //console.log(response.data.Cst);
         //console.log(response.data.SymbolTable);
         //console.log(response.data.ErrorTable);
   
         // Establece setResult con el valor de response.data.output
         setResult(response.data.Output); 
         // Crear tabla de simbolos
-        setSymbolTable(response.data.SymbolTable);
+        //setSymbolTable(response.data.SymbolTable);
         // Crear tabla de errores
-        setErrorTable(response.data.ErrorTable);
+        //setErrorTable(response.data.ErrorTable);
       })
       .catch(function (error) {
         console.log(error);

@@ -5,27 +5,39 @@ import (
 )
 
 type Generator struct {
-	Temporal        int
-	Label           int
-	Code            []interface{}
-	FinalCode       []interface{}
-	Natives         []interface{}
-	FuncCode        []interface{}
-	TempList        []interface{}
-	PrintStringFlag bool
-	BreakLabel      string
-	ContinueLabel   string
-	MainCode        bool
+	// Variables
+	Temporal int
+	Label    int
+	// Lists
+	TempList []interface{}
+	// Code
+	Code      []interface{}
+	FinalCode []interface{}
+	Natives   []interface{}
+	FuncCode  []interface{}
+	// Boolean Temporal
+	BooleanTemp string
+	// Print Flags
+	PrintStringFlag  bool
+	PrintBooleanFlag bool
+
+	BreakLabel    string
+	ContinueLabel string
+	// Main Code Flag
+	MainCode bool
 }
 
 func NewGenerator() Generator {
 	generator := Generator{
-		Temporal:        0,
-		Label:           0,
-		BreakLabel:      "",
-		ContinueLabel:   "",
-		PrintStringFlag: true,
-		MainCode:        false,
+		Temporal:      0,
+		Label:         0,
+		BreakLabel:    "",
+		ContinueLabel: "",
+
+		PrintStringFlag:  true,
+		PrintBooleanFlag: true,
+
+		MainCode: false,
 	}
 	return generator
 }
@@ -178,15 +190,16 @@ func (g *Generator) GenerateFinalCode() {
 	//****************** add head
 	g.FinalCode = append(g.FinalCode, "/*------HEADER------*/\n")
 	g.FinalCode = append(g.FinalCode, "#include <stdio.h>\n")
-	g.FinalCode = append(g.FinalCode, "#include <math.h>\n")
-	g.FinalCode = append(g.FinalCode, "double heap[30101999];\n")
-	g.FinalCode = append(g.FinalCode, "double stack[30101999];\n")
-	g.FinalCode = append(g.FinalCode, "double P;\n")
-	g.FinalCode = append(g.FinalCode, "double H;\n")
-	g.FinalCode = append(g.FinalCode, "double ")
+	g.FinalCode = append(g.FinalCode, "float heap[10000];\n")
+	g.FinalCode = append(g.FinalCode, "float stack[10000];\n")
+	g.FinalCode = append(g.FinalCode, "float P;\n")
+	g.FinalCode = append(g.FinalCode, "float H;\n")
+
 	//****************** add temporal declaration
 	tempArr := g.GetTemps()
 	if len(tempArr) > 0 {
+		g.FinalCode = append(g.FinalCode, "float ")
+
 		tmpDec := fmt.Sprintf("%v", tempArr[0])
 		tempArr = tempArr[1:]
 		for _, s := range tempArr {
@@ -199,11 +212,8 @@ func (g *Generator) GenerateFinalCode() {
 	//****************** add natives functions
 	if len(g.Natives) > 0 {
 		g.FinalCode = append(g.FinalCode, "/*------NATIVES------*/\n")
-		/*
-			for _, s := range g.Natives {
-				g.FinalCode = append(g.FinalCode, s)
-			}
-		*/
+		g.FinalCode = append(g.FinalCode, g.Natives...)
+
 	}
 	//****************** add functions
 	if len(g.FuncCode) > 0 {
@@ -216,12 +226,12 @@ func (g *Generator) GenerateFinalCode() {
 	}
 	//****************** add main
 	g.FinalCode = append(g.FinalCode, "/*------MAIN------*/\n")
-	g.FinalCode = append(g.FinalCode, "void main() {\n")
+	g.FinalCode = append(g.FinalCode, "int main() {\n")
 	g.FinalCode = append(g.FinalCode, "\tP = 0; H = 0;\n\n")
 	for _, s := range g.Code {
 		g.FinalCode = append(g.FinalCode, "\t"+s.(string))
 	}
-	g.FinalCode = append(g.FinalCode, "\n\treturn;\n}\n")
+	g.FinalCode = append(g.FinalCode, "\n\treturn 0;\n}\n")
 }
 
 func (g *Generator) GeneratePrintString() {
@@ -233,7 +243,7 @@ func (g *Generator) GeneratePrintString() {
 		newLvl1 := g.NewLabel()
 		newLvl2 := g.NewLabel()
 		//se genera la funcion printstring
-		g.Natives = append(g.Natives, "void dbrust_printString() {\n")
+		g.Natives = append(g.Natives, "void _print_string_() {\n")
 		g.Natives = append(g.Natives, "\t"+newTemp1+" = P + 1;\n")
 		g.Natives = append(g.Natives, "\t"+newTemp2+" = stack[(int)"+newTemp1+"];\n")
 		g.Natives = append(g.Natives, "\t"+newLvl2+":\n")
@@ -247,4 +257,54 @@ func (g *Generator) GeneratePrintString() {
 		g.Natives = append(g.Natives, "}\n\n")
 		g.PrintStringFlag = false
 	}
+}
+
+func (g *Generator) GeneratePrintBoolean() {
+	/*
+		if g.PrintBooleanFlag {
+
+			if value {
+				trueLabel := g.NewLabel()
+				endLabel := g.NewLabel()
+
+				g.AddIf("t1", "0", "==", trueLabel)
+				g.AddPrintf("c", "t")
+				g.AddPrintf("c", "r")
+				g.AddPrintf("c", "u")
+				g.AddPrintf("c", "e")
+				g.AddGoto(endLabel)
+
+				g.AddLabel(trueLabel)
+				g.AddPrintf("c", "f")
+				g.AddPrintf("c", "a")
+				g.AddPrintf("c", "l")
+				g.AddPrintf("c", "s")
+				g.AddPrintf("c", "e")
+
+				g.AddLabel(endLabel)
+				g.AddBr()
+			} else {
+				falseLabel := g.NewLabel()
+				endLabel := g.NewLabel()
+
+				g.AddIf("t1", "0", "==", falseLabel)
+				g.AddPrintf("c", "t")
+				g.AddPrintf("c", "r")
+				g.AddPrintf("c", "u")
+				g.AddPrintf("c", "e")
+				g.AddGoto(endLabel)
+
+				g.AddLabel(falseLabel)
+				g.AddPrintf("c", "f")
+				g.AddPrintf("c", "a")
+				g.AddPrintf("c", "l")
+				g.AddPrintf("c", "s")
+				g.AddPrintf("c", "e")
+
+				g.AddLabel(endLabel)
+				g.AddBr()
+			}
+			g.PrintBooleanFlag = false
+		}
+	*/
 }

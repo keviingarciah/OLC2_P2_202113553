@@ -2,21 +2,20 @@ package compiler
 
 import (
 	"backend/parser"
+	"backend/structures"
+	"fmt"
+	"strconv"
 )
 
 func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationExprContext) interface{} {
-	/*
-		// get the left value
-		leftValue := v.Visit(ctx.GetLeft())
-		// get the right value
-		rightValue := v.Visit(ctx.GetRight())
-		// Get the operator
-		sign := ctx.GetOp().GetText()
-	*/
-	//fmt.Println("Left: ", leftValue.GetValue(), "Right: ", rightValue.GetValue(), "Sign: ", sign)
-	/*
-		switch sign {
-		case "%":
+	// Get the operator
+	sign := ctx.GetOp().GetText()
+
+	newTemp := v.Generator.NewTemp()
+
+	switch sign {
+	case "%":
+		/*
 			// Check for division by zero
 			if rightValue.GetValue() == 0 {
 				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
@@ -32,60 +31,200 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			if leftValue.GetType() == "Int" && rightValue.GetType() == "Int" {
 				return &IntPrimitive{Value: leftValue.GetValue().(int64) % rightValue.GetValue().(int64)}
 			}
-		case "*":
-			if leftValue.GetType() == "Int" && rightValue.GetType() == "Int" {
-				return &IntPrimitive{Value: leftValue.GetValue().(int64) * rightValue.GetValue().(int64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) * rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Int" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: float64(leftValue.GetValue().(int64)) * rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Int" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) * float64(rightValue.GetValue().(int64))}
+		*/
+
+	case "*":
+		// Obtener los valores izquierdo y derecho
+		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
+		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Verificar si ambos operandos son de tipo IntType o FloatType
+		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
+			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType) {
+
+			// Agregar la expresión a la lista de expresiones
+			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "*")
+
+			// Realizar la operación de multiplicación
+			var resultValue string
+			dataType := leftValue.GetDataType()
+
+			if dataType == IntType {
+				leftInt, _ := strconv.Atoi(leftValue.GetValue())
+				rightInt, _ := strconv.Atoi(rightValue.GetValue())
+				resultValue = strconv.Itoa(leftInt * rightInt)
+			} else {
+				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
+				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
+				resultValue = strconv.FormatFloat(leftFloat*rightFloat, 'f', 4, 64)
 			}
-		case "/":
-			// Check for division by zero
-			if rightValue.GetValue() == 0 {
+
+			return structures.Primitive{
+				Value:    resultValue,
+				DataType: dataType,
+			}
+		} else {
+			fmt.Print("ERROR: No se puede multiplicar")
+			/*
 				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
 					Line:    ctx.GetStart().GetLine(),
 					Column:  ctx.GetStart().GetColumn(),
-					Message: "Division by zero",
+					Message: "No se puede multiplicar",
 				})
-				//fmt.Println("Error: Division by zero")
-				return &NilPrimitive{Value: nil}
+			*/
+		}
+	case "/":
+		// Obtener los valores izquierdo y derecho
+		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
+		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Verificar si el divisor es cero
+		if rightValue.GetValue() == "0" {
+			fmt.Print("ERROR: No se puede dividir entre cero")
+			/*
+				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+					Line:    ctx.GetStart().GetLine(),
+					Column:  ctx.GetStart().GetColumn(),
+					Message: "No se puede multiplicar",
+				})
+			*/
+			return nil
+		}
+
+		// Verificar si ambos operandos son de tipo IntType o FloatType
+		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
+			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType) {
+
+			// Validación para división entre cero en C3D
+			lvl1 := v.Generator.NewLabel()
+			lvl2 := v.Generator.NewLabel()
+
+			v.Generator.AddIf(rightValue.GetValue(), "0", "!=", lvl1)
+			v.Generator.AddPrintf("c", "77")
+			v.Generator.AddPrintf("c", "97")
+			v.Generator.AddPrintf("c", "116")
+			v.Generator.AddPrintf("c", "104")
+			v.Generator.AddPrintf("c", "69")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddPrintf("c", "111")
+			v.Generator.AddPrintf("c", "114")
+			v.Generator.AddExpression(newTemp, "0", "", "")
+			v.Generator.AddGoto(lvl2)
+			v.Generator.AddLabel(lvl1)
+			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "/")
+			v.Generator.AddLabel(lvl2)
+
+			// Realizar la operación de división
+			var resultValue string
+			dataType := leftValue.GetDataType()
+
+			if dataType == IntType {
+				leftInt, _ := strconv.Atoi(leftValue.GetValue())
+				rightInt, _ := strconv.Atoi(rightValue.GetValue())
+				resultValue = strconv.Itoa(leftInt / rightInt)
+			} else {
+				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
+				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
+				resultValue = strconv.FormatFloat(leftFloat/rightFloat, 'f', 4, 64)
 			}
 
-			if leftValue.GetType() == "Int" && rightValue.GetType() == "Int" {
-				return &IntPrimitive{Value: leftValue.GetValue().(int64) / rightValue.GetValue().(int64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) / rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Int" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: float64(leftValue.GetValue().(int64)) / rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Int" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) / float64(rightValue.GetValue().(int64))}
+			return structures.Primitive{
+				Value:    resultValue,
+				DataType: dataType,
 			}
-		case "+":
-			if leftValue.GetType() == "Int" && rightValue.GetType() == "Int" {
-				return &IntPrimitive{Value: leftValue.GetValue().(int64) + rightValue.GetValue().(int64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) + rightValue.GetValue().(float64)}
-			} else if (leftValue.GetType() == "String" && rightValue.GetType() == "String") || (leftValue.GetType() == "Character" && rightValue.GetType() == "String") || (leftValue.GetType() == "String" && rightValue.GetType() == "Character") {
-				return &StringPrimitive{Value: leftValue.GetValue().(string) + rightValue.GetValue().(string)}
-			} else if leftValue.GetType() == "Int" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: float64(leftValue.GetValue().(int64)) + rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Int" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) + float64(rightValue.GetValue().(int64))}
-			}
-		case "-":
-			if leftValue.GetType() == "Int" && rightValue.GetType() == "Int" {
-				return &IntPrimitive{Value: leftValue.GetValue().(int64) - rightValue.GetValue().(int64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) - rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Int" && rightValue.GetType() == "Float" {
-				return &FloatPrimitive{Value: float64(leftValue.GetValue().(int64)) - rightValue.GetValue().(float64)}
-			} else if leftValue.GetType() == "Float" && rightValue.GetType() == "Int" {
-				return &FloatPrimitive{Value: leftValue.GetValue().(float64) - float64(rightValue.GetValue().(int64))}
-			}
+		} else {
+			fmt.Print("ERROR: No se realizar la división")
+			/*
+				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+					Line:    ctx.GetStart().GetLine(),
+					Column:  ctx.GetStart().GetColumn(),
+					Message: "No se puede multiplicar",
+				})
+			*/
 		}
-	*/
+	case "+":
+		// Obtener los valores izquierdo y derecho
+		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
+		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Verificar si ambos operandos son de tipo IntType o FloatType
+		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
+			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType) {
+
+			// Agregar la expresión a la lista de expresiones
+			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "+")
+
+			// Realizar la operación de multiplicación
+			var resultValue string
+			dataType := leftValue.GetDataType()
+
+			if dataType == IntType {
+				fmt.Print("Suma de enteros")
+				leftInt, _ := strconv.Atoi(leftValue.GetValue())
+				rightInt, _ := strconv.Atoi(rightValue.GetValue())
+				resultValue = strconv.Itoa(leftInt + rightInt)
+			} else {
+				fmt.Print("Suma de floats")
+				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
+				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
+				resultValue = strconv.FormatFloat(leftFloat+rightFloat, 'f', 4, 64)
+			}
+
+			return structures.Primitive{
+				Value:    resultValue,
+				DataType: dataType,
+			}
+		} else {
+			fmt.Print("ERROR: No se puede sumar")
+			/*
+				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+					Line:    ctx.GetStart().GetLine(),
+					Column:  ctx.GetStart().GetColumn(),
+					Message: "No se puede multiplicar",
+				})
+			*/
+		}
+	case "-":
+		// Obtener los valores izquierdo y derecho
+		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
+		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Verificar si ambos operandos son de tipo IntType o FloatType
+		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
+			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType) {
+
+			// Agregar la expresión a la lista de expresiones
+			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "-")
+
+			// Realizar la operación de multiplicación
+			var resultValue string
+			dataType := leftValue.GetDataType()
+
+			if dataType == IntType {
+				leftInt, _ := strconv.Atoi(leftValue.GetValue())
+				rightInt, _ := strconv.Atoi(rightValue.GetValue())
+				resultValue = strconv.Itoa(leftInt - rightInt)
+			} else {
+				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
+				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
+				resultValue = strconv.FormatFloat(leftFloat-rightFloat, 'f', 4, 64)
+			}
+
+			return structures.Primitive{
+				Value:    resultValue,
+				DataType: dataType,
+			}
+		} else {
+			fmt.Print("ERROR: No se puede restar")
+			/*
+				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+					Line:    ctx.GetStart().GetLine(),
+					Column:  ctx.GetStart().GetColumn(),
+					Message: "No se puede multiplicar",
+				})
+			*/
+		}
+	}
 	return nil
 }

@@ -3,6 +3,7 @@ package compiler
 import (
 	"backend/parser"
 	"backend/structures"
+	"strconv"
 	"strings"
 )
 
@@ -30,7 +31,7 @@ func (v *Visitor) VisitDigitExpr(ctx *parser.DigitExprContext) interface{} {
 	} else {
 		return structures.Primitive{
 			Value:      digit,
-			DataType:   FloatType,
+			DataType:   IntType,
 			IsTemporal: false,
 		}
 	}
@@ -39,21 +40,64 @@ func (v *Visitor) VisitDigitExpr(ctx *parser.DigitExprContext) interface{} {
 func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 	str := strings.Trim(ctx.GetText(), "\"") // get the string
 	if len(str) == 1 {
-		//fmt.Println("Character detected: ", str)
-		return nil
+		char := strconv.Itoa(int(str[0]))
+
+		return structures.Primitive{
+			Value:      char,
+			DataType:   CharacterType, // Puedes definir el tipo de dato según tus necesidades
+			IsTemporal: true,
+		}
 	} else {
-		//fmt.Println("Primitive String: ", str)
-		return nil
+		//nuevo temporal
+		newTemp := v.Generator.NewTemp()
+		//iguala a heap pointer
+		v.Generator.AddAssign(newTemp, "H")
+		//recorremos string en ascii
+		byteArray := []byte(str)
+		for _, asc := range byteArray {
+			//se agrega ascii al heap
+			v.Generator.AddSetHeap("(int)H", strconv.Itoa(int(asc)))
+			//suma heap pointer
+			v.Generator.AddExpression("H", "H", "1", "+")
+		}
+		//caracteres de escape
+		v.Generator.AddSetHeap("(int)H", "-1")
+		v.Generator.AddExpression("H", "H", "1", "+")
+		v.Generator.AddBr()
+
+		return structures.Primitive{
+			Value:      newTemp,
+			DataType:   StringType,
+			IsTemporal: true,
+		}
 	}
 }
 
 func (v *Visitor) VisitBooleanExpr(ctx *parser.BooleanExprContext) interface{} {
 	boolean := ctx.GetText() // get the digit
 
-	return structures.Primitive{
-		Value:      boolean,
-		DataType:   BooleanType,
-		IsTemporal: false,
+	if boolean == "true" {
+		//nuevo temporal
+		newTemp := v.Generator.NewTemp()
+		//iguala a heap pointer
+		v.Generator.AddAssign(newTemp, "1")
+
+		return structures.Primitive{
+			Value:      newTemp,
+			DataType:   BooleanType,
+			IsTemporal: true,
+		}
+	} else {
+		//nuevo temporal
+		newTemp := v.Generator.NewTemp()
+		//iguala a heap pointer
+		v.Generator.AddAssign(newTemp, "0")
+
+		return structures.Primitive{
+			Value:      newTemp,
+			DataType:   BooleanType,
+			IsTemporal: true,
+		}
 	}
 }
 
