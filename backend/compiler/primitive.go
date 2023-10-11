@@ -87,7 +87,7 @@ func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 
 func (v *Visitor) VisitBooleanExpr(ctx *parser.BooleanExprContext) interface{} {
 	// Agrergar comentario
-	v.Generator.AddComment("-----Bool Primitivo-----")
+	//v.Generator.AddComment("-----Bool Primitivo-----")
 
 	boolean := ctx.GetText()
 
