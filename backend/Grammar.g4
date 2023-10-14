@@ -36,9 +36,9 @@ stmts:
 
 // Variables
 varDeclaration:
-	VAR ID COLON type EQUAL expr		# TypeValueVarDeclaration // var value: String = "Hola"
-	| VAR ID COLON type QUESTION_MARK	# TypeVarDeclaration
-	| VAR ID EQUAL expr					# ValueVarDeclaration
+	VAR ID COLON type EQUAL expr		# TypeValueVarDeclaration // var value: String = "Hola"	
+	| VAR ID EQUAL expr					# ValueVarDeclaration	// var value = "Hola"
+	| VAR ID COLON type QUESTION_MARK	# TypeVarDeclaration	// var value: String?	
     ;
 
 varAssignment:

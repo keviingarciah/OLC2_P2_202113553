@@ -3,6 +3,7 @@ package compiler
 import (
 	"backend/generator"
 	"backend/parser"
+	"backend/structures"
 	"log"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -10,15 +11,37 @@ import (
 
 // Visitor Struct
 type Visitor struct {
+	// Parser
 	parser.BaseGrammarVisitor
+	// Generator
 	Generator generator.Generator
+	// Environments
+	currentEnv *Environment
+	Stack      []*Environment
+	// Symbol Table
+	SymbolTable map[string]structures.Symbol
+	// Semantic Errors
+	SemanticErrors []structures.SemanticError
 }
 
 // Create a new visitor
 func NewVisitor() *Visitor {
-	return &Visitor{
-		Generator: generator.NewGenerator(),
+	visitor := &Visitor{
+		Generator:      generator.NewGenerator(),
+		SymbolTable:    make(map[string]structures.Symbol),
+		SemanticErrors: make([]structures.SemanticError, 0),
 	}
+
+	globalEnv := &Environment{
+		Symbols: make(map[string]structures.Symbol),
+		Parent:  nil,
+		Name:    environmentName,
+	}
+
+	visitor.Stack = append(visitor.Stack, globalEnv)
+	visitor.currentEnv = globalEnv
+
+	return visitor
 }
 
 // Visit

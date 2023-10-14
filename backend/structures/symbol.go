@@ -2,17 +2,13 @@ package structures
 
 // ------------------ Symbol Table ------------------
 type Symbol struct {
+	// Symbol
 	Line       int
 	Column     int
-	SymbolType string
+	Type       string
 	DataType   string
-	Value      interface{}
+	Value      string
 	Enviroment string
-}
-
-// ------------------ Errors ------------------
-type SemanticError struct {
-	Line    int
-	Column  int
-	Message string
+	// C3D
+	Address string
 }

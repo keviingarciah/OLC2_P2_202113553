@@ -126,19 +126,36 @@ func (v *Visitor) VisitNilExpr(ctx *parser.NilExprContext) interface{} {
 	}
 }
 
-/*
 func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
+	// Agrergar comentario
+	v.Generator.AddComment("-----Id Primitivo-----")
 	id := ctx.GetText()
+
 	if symbol, ok := v.FindSymbol(id); ok {
-		return symbol.Value
+		newTemp := v.Generator.NewTemp()
+		newTemp2 := v.Generator.NewTemp()
+
+		if v.Generator.MainCode {
+			v.Generator.AddGetStack(newTemp2, symbol.Address)
+		} else {
+			v.Generator.AddExpression(newTemp, "P", symbol.Address, "+")
+			v.Generator.AddGetStack(newTemp2, "(int)"+newTemp)
+		}
+
+		v.Generator.AddBr()
+
+		return structures.Primitive{
+			Value:      newTemp2,
+			DataType:   StringType,
+			IsTemporal: true,
+		}
 	} else {
-		//fmt.Println("no such variable: " + id)
-		v.SemanticErrors = append(v.SemanticErrors, SemanticError{
+		v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
 			Line:    ctx.GetStart().GetLine(),
 			Column:  ctx.GetStart().GetColumn(),
 			Message: "Variable no declarada: " + id,
 		})
+
+		return nil
 	}
-	return nil
 }
-*/

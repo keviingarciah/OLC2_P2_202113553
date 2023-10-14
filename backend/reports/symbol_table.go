@@ -32,7 +32,7 @@ func CreateTS(ts map[string]structures.Symbol) string {
 	for key, symbol := range ts {
 		sb.WriteString("<TR>\n")
 		sb.WriteString(fmt.Sprintf("<TD PORT=\"%s\">%s</TD>\n", key, key))
-		sb.WriteString(fmt.Sprintf("<TD PORT=\"SymbolType_%s\">%s</TD>\n", key, symbol.SymbolType))
+		sb.WriteString(fmt.Sprintf("<TD PORT=\"SymbolType_%s\">%s</TD>\n", key, symbol.Type))
 		sb.WriteString(fmt.Sprintf("<TD PORT=\"DataType_%s\">%s</TD>\n", key, symbol.DataType))
 		sb.WriteString(fmt.Sprintf("<TD PORT=\"Enviroment_%s\">%s</TD>\n", key, symbol.Enviroment))
 		sb.WriteString(fmt.Sprintf("<TD PORT=\"Line_%s\">%d</TD>\n", key, symbol.Line))

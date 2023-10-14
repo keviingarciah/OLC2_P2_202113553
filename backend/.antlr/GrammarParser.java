@@ -678,7 +678,7 @@ public class GrammarParser extends Parser {
 				}
 				break;
 			case 2:
-				_localctx = new TypeVarDeclarationContext(_localctx);
+				_localctx = new ValueVarDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(166);
@@ -686,25 +686,25 @@ public class GrammarParser extends Parser {
 				setState(167);
 				match(ID);
 				setState(168);
-				match(COLON);
+				match(EQUAL);
 				setState(169);
-				type();
-				setState(170);
-				match(QUESTION_MARK);
+				expr(0);
 				}
 				break;
 			case 3:
-				_localctx = new ValueVarDeclarationContext(_localctx);
+				_localctx = new TypeVarDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(172);
+				setState(170);
 				match(VAR);
-				setState(173);
+				setState(171);
 				match(ID);
+				setState(172);
+				match(COLON);
+				setState(173);
+				type();
 				setState(174);
-				match(EQUAL);
-				setState(175);
-				expr(0);
+				match(QUESTION_MARK);
 				}
 				break;
 			}
@@ -3527,11 +3527,11 @@ public class GrammarParser extends Parser {
 		"D\u0000\u0000\u00a1\u00a2\u0005<\u0000\u0000\u00a2\u00a3\u0003J%\u0000"+
 		"\u00a3\u00a4\u0005=\u0000\u0000\u00a4\u00a5\u0003H$\u0000\u00a5\u00b1"+
 		"\u0001\u0000\u0000\u0000\u00a6\u00a7\u0005)\u0000\u0000\u00a7\u00a8\u0005"+
-		"D\u0000\u0000\u00a8\u00a9\u0005<\u0000\u0000\u00a9\u00aa\u0003J%\u0000"+
-		"\u00aa\u00ab\u0005>\u0000\u0000\u00ab\u00b1\u0001\u0000\u0000\u0000\u00ac"+
-		"\u00ad\u0005)\u0000\u0000\u00ad\u00ae\u0005D\u0000\u0000\u00ae\u00af\u0005"+
-		"=\u0000\u0000\u00af\u00b1\u0003H$\u0000\u00b0\u009f\u0001\u0000\u0000"+
-		"\u0000\u00b0\u00a6\u0001\u0000\u0000\u0000\u00b0\u00ac\u0001\u0000\u0000"+
+		"D\u0000\u0000\u00a8\u00a9\u0005=\u0000\u0000\u00a9\u00b1\u0003H$\u0000"+
+		"\u00aa\u00ab\u0005)\u0000\u0000\u00ab\u00ac\u0005D\u0000\u0000\u00ac\u00ad"+
+		"\u0005<\u0000\u0000\u00ad\u00ae\u0003J%\u0000\u00ae\u00af\u0005>\u0000"+
+		"\u0000\u00af\u00b1\u0001\u0000\u0000\u0000\u00b0\u009f\u0001\u0000\u0000"+
+		"\u0000\u00b0\u00a6\u0001\u0000\u0000\u0000\u00b0\u00aa\u0001\u0000\u0000"+
 		"\u0000\u00b1\u0007\u0001\u0000\u0000\u0000\u00b2\u00b9\u0005D\u0000\u0000"+
 		"\u00b3\u00b4\u0005D\u0000\u0000\u00b4\u00b5\u0005\u0001\u0000\u0000\u00b5"+
 		"\u00b6\u0003H$\u0000\u00b6\u00b7\u0005\u0002\u0000\u0000\u00b7\u00b9\u0001"+

@@ -31,6 +31,9 @@ type Generator struct {
 
 	// Main Code Flag
 	MainCode bool
+
+	// Counters
+	StackCounter int
 }
 
 func NewGenerator() Generator {
@@ -44,6 +47,8 @@ func NewGenerator() Generator {
 		PrintBooleanFlag: true,
 
 		MainCode: false,
+
+		StackCounter: 0,
 	}
 	return generator
 }

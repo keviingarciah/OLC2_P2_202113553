@@ -29,6 +29,7 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			newTemp1 := v.Generator.NewTemp()
 			newTemp2 := v.Generator.NewTemp()
 			size := strconv.Itoa(0)
+
 			v.Generator.AddExpression(newTemp1, "P", size, "+")              //nuevo temporal en pos vacia
 			v.Generator.AddExpression(newTemp1, newTemp1, "1", "+")          //se deja espacio de retorno
 			v.Generator.AddSetStack("(int)"+newTemp1, expression.GetValue()) //se coloca string en parametro que se manda
