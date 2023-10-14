@@ -3,7 +3,6 @@ package compiler
 import (
 	"backend/parser"
 	"backend/structures"
-	"fmt"
 )
 
 func (v *Visitor) VisitComparisonOperationExpr(ctx *parser.ComparisonOperationExprContext) interface{} {
@@ -52,7 +51,7 @@ func (v *Visitor) VisitComparisonOperationExpr(ctx *parser.ComparisonOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// Se obtiene el tamaño de la cadena 💀
+				// 💀
 			}
 
 			// Retornar el valor
@@ -61,14 +60,11 @@ func (v *Visitor) VisitComparisonOperationExpr(ctx *parser.ComparisonOperationEx
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede comparar.")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden comparar.",
+			})
 		}
 	case "!=":
 		// Agregar comentario
@@ -108,7 +104,7 @@ func (v *Visitor) VisitComparisonOperationExpr(ctx *parser.ComparisonOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// Se obtiene el tamaño de la cadena 💀
+				// 💀
 			}
 
 			// Retornar el valor
@@ -117,14 +113,11 @@ func (v *Visitor) VisitComparisonOperationExpr(ctx *parser.ComparisonOperationEx
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede comparar.")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden comparar.",
+			})
 		}
 	}
 	return nil

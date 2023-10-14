@@ -52,14 +52,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 
 			// Verificar si el divisor es cero
 			if rightValue.GetValue() == "0" {
-				fmt.Print("ERROR: No se puede modular entre cero")
-				/*
-					v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-						Line:    ctx.GetStart().GetLine(),
-						Column:  ctx.GetStart().GetColumn(),
-						Message: "No se puede multiplicar",
-					})
-				*/
+				v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+					Line:    ctx.GetStart().GetLine(),
+					Column:  ctx.GetStart().GetColumn(),
+					Message: "El divisor no puede ser 0.",
+				})
+
 				return structures.Primitive{
 					Value:    "Nil",
 					DataType: NilType,
@@ -79,14 +77,11 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				DataType: dataType,
 			}
 		} else {
-			fmt.Print("ERROR: No se realizar el módulo")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden modular.",
+			})
 		}
 	case "*":
 		// Agregar comentario
@@ -122,14 +117,11 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				DataType: dataType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede multiplicar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden multiplicar.",
+			})
 		}
 	case "/":
 		// Agregar comentario
@@ -167,14 +159,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 
 			// Verificar si el divisor es cero
 			if rightValue.GetValue() == "0" {
-				fmt.Print("ERROR: No se puede dividir entre cero")
-				/*
-					v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-						Line:    ctx.GetStart().GetLine(),
-						Column:  ctx.GetStart().GetColumn(),
-						Message: "No se puede multiplicar",
-					})
-				*/
+				v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+					Line:    ctx.GetStart().GetLine(),
+					Column:  ctx.GetStart().GetColumn(),
+					Message: "El divisor no puede ser 0.",
+				})
+
 				return structures.Primitive{
 					Value:    "Nil",
 					DataType: NilType,
@@ -200,14 +190,11 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				DataType: dataType,
 			}
 		} else {
-			fmt.Print("ERROR: No se realizar la división")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden dividir.",
+			})
 		}
 	case "+":
 		// Agregar comentario
@@ -254,14 +241,11 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				DataType: dataType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede sumar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden sumar.",
+			})
 		}
 	case "-":
 		// Agregar comentario
@@ -297,14 +281,11 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				DataType: dataType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede restar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden restar.",
+			})
 		}
 	}
 	return nil

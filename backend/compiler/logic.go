@@ -3,7 +3,6 @@ package compiler
 import (
 	"backend/parser"
 	"backend/structures"
-	"fmt"
 )
 
 func (v *Visitor) VisitLogicalOperationExpr(ctx *parser.LogicalOperationExprContext) interface{} {
@@ -63,14 +62,11 @@ func (v *Visitor) VisitLogicalOperationExpr(ctx *parser.LogicalOperationExprCont
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede comparar.")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se puede realizar la operación.",
+			})
 		}
 	case "||":
 		// Agregar comentario
@@ -121,14 +117,11 @@ func (v *Visitor) VisitLogicalOperationExpr(ctx *parser.LogicalOperationExprCont
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede comparar.")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se puede realizar la operación.",
+			})
 		}
 	}
 	return nil

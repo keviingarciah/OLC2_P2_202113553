@@ -3,15 +3,7 @@ package compiler
 import (
 	"backend/parser"
 	"backend/structures"
-	"fmt"
 )
-
-func boolToString(b bool) string {
-	if b {
-		return "true"
-	}
-	return "false"
-}
 
 func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationExprContext) interface{} {
 	// Get the operator
@@ -59,7 +51,7 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// Se obtiene el tamaño de la cadena 💀
+				// 💀
 			}
 
 			// Retornar el valor
@@ -68,14 +60,11 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede multiplicar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden relacionar.",
+			})
 		}
 	case "<=":
 		// Agregar comentario
@@ -114,7 +103,7 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// Se obtiene el tamaño de la cadena 💀
+				// 💀
 			}
 
 			// Retornar el valor
@@ -123,14 +112,11 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede multiplicar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden relacionar.",
+			})
 		}
 	case ">":
 		// Agregar comentario
@@ -169,7 +155,7 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// Se obtiene el tamaño de la cadena 💀
+				// 💀
 			}
 
 			// Retornar el valor
@@ -178,14 +164,11 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede multiplicar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden relacionar.",
+			})
 		}
 	case ">=":
 		// Agregar comentario
@@ -224,7 +207,7 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// Se obtiene el tamaño de la cadena 💀
+				// 💀
 			}
 
 			// Retornar el valor
@@ -233,14 +216,11 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede multiplicar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipos de datos distintos, no se pueden relacionar.",
+			})
 		}
 	}
 	return nil

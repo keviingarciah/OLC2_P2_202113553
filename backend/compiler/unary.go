@@ -3,7 +3,6 @@ package compiler
 import (
 	"backend/parser"
 	"backend/structures"
-	"fmt"
 )
 
 func (v *Visitor) VisitUnaryOperationExpr(ctx *parser.UnaryOperationExprContext) interface{} { // Pa mientras
@@ -54,14 +53,11 @@ func (v *Visitor) VisitUnaryOperationExpr(ctx *parser.UnaryOperationExprContext)
 				DataType: BooleanType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede comparar.")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipo de dato incorrecto, no se puede realizar el cambio de signo.",
+			})
 		}
 	case "-":
 		// Agregar comentario
@@ -87,14 +83,11 @@ func (v *Visitor) VisitUnaryOperationExpr(ctx *parser.UnaryOperationExprContext)
 				DataType: dataType,
 			}
 		} else {
-			fmt.Print("ERROR: No se puede restar")
-			/*
-				v.SemanticErrors = append(v.SemanticErrors, SemanticError{
-					Line:    ctx.GetStart().GetLine(),
-					Column:  ctx.GetStart().GetColumn(),
-					Message: "No se puede multiplicar",
-				})
-			*/
+			v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+				Line:    ctx.GetStart().GetLine(),
+				Column:  ctx.GetStart().GetColumn(),
+				Message: "Tipo de dato incorrecto, no se puede realizar la negación.",
+			})
 		}
 	}
 	return nil
