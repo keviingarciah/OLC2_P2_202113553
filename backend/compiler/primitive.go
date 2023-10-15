@@ -3,6 +3,7 @@ package compiler
 import (
 	"backend/parser"
 	"backend/structures"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -146,14 +147,14 @@ func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
 
 		return structures.Primitive{
 			Value:      newTemp2,
-			DataType:   StringType,
+			DataType:   symbol.DataType,
 			IsTemporal: true,
 		}
 	} else {
 		v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
 			Line:    ctx.GetStart().GetLine(),
 			Column:  ctx.GetStart().GetColumn(),
-			Message: "Variable no declarada: " + id,
+			Message: fmt.Sprint("Variable ", id, " no declarada."),
 		})
 
 		return nil
