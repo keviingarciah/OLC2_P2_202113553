@@ -18,7 +18,7 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 
 			v.Generator.AddPrintf("d", "(int)"+fmt.Sprintf("%v", expression.GetValue()))
 			v.Generator.AddPrintf("c", "10")
-			v.Generator.AddBr()
+			//v.Generator.AddBr()
 		} else if expression.GetDataType() == StringType {
 			// Agregar comentario
 			v.Generator.AddComment("-------Print String-------")
@@ -38,14 +38,14 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			v.Generator.AddGetStack(newTemp2, "(int)P")                      //obtencion retorno
 			v.Generator.AddExpression("P", "P", size, "-")                   //regreso del entorno
 			v.Generator.AddPrintf("c", "10")                                 //salto de linea
-			v.Generator.AddBr()
+			//v.Generator.AddBr()
 		} else if expression.GetDataType() == CharacterType {
 			// Agregar comentario
 			v.Generator.AddComment("-------Print Character-------")
 
 			v.Generator.AddPrintf("c", "(int)"+fmt.Sprintf("%v", expression.GetValue()))
 			v.Generator.AddPrintf("c", "10")
-			v.Generator.AddBr()
+			//v.Generator.AddBr()
 		} else if expression.GetDataType() == BooleanType {
 			// Agregar comentario
 			v.Generator.AddComment("-------Print Bool-------")
@@ -71,7 +71,7 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 
 			v.Generator.AddPrintf("c", "10")
 
-			v.Generator.AddBr()
+			//v.Generator.AddBr()
 		}
 	}
 	return nil

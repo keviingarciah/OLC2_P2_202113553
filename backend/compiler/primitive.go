@@ -25,7 +25,7 @@ func (v *Visitor) VisitDigitExpr(ctx *parser.DigitExprContext) interface{} {
 	// Evalue if the digit has a . to know if it is a float or an integer
 	if strings.Contains(digit, ".") {
 		// Agrergar comentario
-		v.Generator.AddComment("-----Int Primitivo-----")
+		//v.Generator.AddComment("-----Int Primitivo-----")
 
 		return structures.Primitive{
 			Value:      digit,
@@ -76,7 +76,7 @@ func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 		//caracteres de escape
 		v.Generator.AddSetHeap("(int)H", "-1")
 		v.Generator.AddExpression("H", "H", "1", "+")
-		v.Generator.AddBr()
+		//v.Generator.AddBr()
 
 		return structures.Primitive{
 			Value:      newTemp,
@@ -134,19 +134,12 @@ func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
 
 	if symbol, ok := v.FindSymbol(id); ok {
 		newTemp := v.Generator.NewTemp()
-		newTemp2 := v.Generator.NewTemp()
 
-		if v.Generator.MainCode {
-			v.Generator.AddGetStack(newTemp2, symbol.Address)
-		} else {
-			v.Generator.AddExpression(newTemp, "P", symbol.Address, "+")
-			v.Generator.AddGetStack(newTemp2, "(int)"+newTemp)
-		}
-
-		v.Generator.AddBr()
+		v.Generator.AddGetStack(newTemp, symbol.Address)
+		//v.Generator.AddBr()
 
 		return structures.Primitive{
-			Value:      newTemp2,
+			Value:      newTemp,
 			DataType:   symbol.DataType,
 			IsTemporal: true,
 		}

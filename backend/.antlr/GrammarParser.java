@@ -139,6 +139,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_start; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStart(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStart(this);
+		}
 	}
 
 	public final StartContext start() throws RecognitionException {
@@ -176,6 +184,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterBlock(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitBlock(this);
+		}
 	}
 
 	public final BlockContext block() throws RecognitionException {
@@ -275,6 +291,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stmts; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStmts(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStmts(this);
+		}
 	}
 
 	public final StmtsContext stmts() throws RecognitionException {
@@ -626,6 +650,14 @@ public class GrammarParser extends Parser {
 		}
 		public TerminalNode QUESTION_MARK() { return getToken(GrammarParser.QUESTION_MARK, 0); }
 		public TypeVarDeclarationContext(VarDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterTypeVarDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitTypeVarDeclaration(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class TypeValueVarDeclarationContext extends VarDeclarationContext {
@@ -640,6 +672,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public TypeValueVarDeclarationContext(VarDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterTypeValueVarDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitTypeValueVarDeclaration(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ValueVarDeclarationContext extends VarDeclarationContext {
@@ -650,6 +690,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public ValueVarDeclarationContext(VarDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterValueVarDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitValueVarDeclaration(this);
+		}
 	}
 
 	public final VarDeclarationContext varDeclaration() throws RecognitionException {
@@ -743,6 +791,14 @@ public class GrammarParser extends Parser {
 		}
 		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
 		public DecrementVarAssignmentContext(VarAssignmentContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterDecrementVarAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitDecrementVarAssignment(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ValueVarAssignmentContext extends VarAssignmentContext {
@@ -755,6 +811,14 @@ public class GrammarParser extends Parser {
 		}
 		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
 		public ValueVarAssignmentContext(VarAssignmentContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterValueVarAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitValueVarAssignment(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IncrementVarAssignmentContext extends VarAssignmentContext {
@@ -767,6 +831,14 @@ public class GrammarParser extends Parser {
 		}
 		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
 		public IncrementVarAssignmentContext(VarAssignmentContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterIncrementVarAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitIncrementVarAssignment(this);
+		}
 	}
 
 	public final VarAssignmentContext varAssignment() throws RecognitionException {
@@ -906,6 +978,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public ValueLetDeclarationContext(LetDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterValueLetDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitValueLetDeclaration(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class TypeValueLetDeclarationContext extends LetDeclarationContext {
@@ -920,6 +1000,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public TypeValueLetDeclarationContext(LetDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterTypeValueLetDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitTypeValueLetDeclaration(this);
+		}
 	}
 
 	public final LetDeclarationContext letDeclaration() throws RecognitionException {
@@ -993,6 +1081,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vectorDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterVectorDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitVectorDeclaration(this);
+		}
 	}
 
 	public final VectorDeclarationContext vectorDeclaration() throws RecognitionException {
@@ -1082,6 +1178,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_valuesVectorDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterValuesVectorDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitValuesVectorDeclaration(this);
+		}
 	}
 
 	public final ValuesVectorDeclarationContext valuesVectorDeclaration() throws RecognitionException {
@@ -1131,6 +1235,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vectorType; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterVectorType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitVectorType(this);
+		}
 	}
 
 	public final VectorTypeContext vectorType() throws RecognitionException {
@@ -1168,6 +1280,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vectorAppend; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterVectorAppend(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitVectorAppend(this);
+		}
 	}
 
 	public final VectorAppendContext vectorAppend() throws RecognitionException {
@@ -1206,6 +1326,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vectorRemoveLast; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterVectorRemoveLast(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitVectorRemoveLast(this);
+		}
 	}
 
 	public final VectorRemoveLastContext vectorRemoveLast() throws RecognitionException {
@@ -1246,6 +1374,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vectorRemoveAt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterVectorRemoveAt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitVectorRemoveAt(this);
+		}
 	}
 
 	public final VectorRemoveAtContext vectorRemoveAt() throws RecognitionException {
@@ -1300,6 +1436,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_matrixDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterMatrixDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitMatrixDeclaration(this);
+		}
 	}
 
 	public final MatrixDeclarationContext matrixDeclaration() throws RecognitionException {
@@ -1397,6 +1541,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_valuesMatrixDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterValuesMatrixDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitValuesMatrixDeclaration(this);
+		}
 	}
 
 	public final ValuesMatrixDeclarationContext valuesMatrixDeclaration() throws RecognitionException {
@@ -1480,6 +1632,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStructDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStructDeclaration(this);
+		}
 	}
 
 	public final StructDeclarationContext structDeclaration() throws RecognitionException {
@@ -1558,6 +1718,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structAttribute; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStructAttribute(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStructAttribute(this);
+		}
 	}
 
 	public final StructAttributeContext structAttribute() throws RecognitionException {
@@ -1635,6 +1803,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structFunction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStructFunction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStructFunction(this);
+		}
 	}
 
 	public final StructFunctionContext structFunction() throws RecognitionException {
@@ -1679,6 +1855,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structAccess; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStructAccess(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStructAccess(this);
+		}
 	}
 
 	public final StructAccessContext structAccess() throws RecognitionException {
@@ -1733,6 +1917,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structAssignment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStructAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStructAssignment(this);
+		}
 	}
 
 	public final StructAssignmentContext structAssignment() throws RecognitionException {
@@ -1781,6 +1973,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_funcDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterFuncDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitFuncDeclaration(this);
+		}
 	}
 
 	public final FuncDeclarationContext funcDeclaration() throws RecognitionException {
@@ -1861,6 +2061,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_paramsFuncDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterParamsFuncDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitParamsFuncDeclaration(this);
+		}
 	}
 
 	public final ParamsFuncDeclarationContext paramsFuncDeclaration() throws RecognitionException {
@@ -1959,6 +2167,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_funcCall; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterFuncCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitFuncCall(this);
+		}
 	}
 
 	public final FuncCallContext funcCall() throws RecognitionException {
@@ -2012,6 +2228,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_paramsFuncCall; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterParamsFuncCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitParamsFuncCall(this);
+		}
 	}
 
 	public final ParamsFuncCallContext paramsFuncCall() throws RecognitionException {
@@ -2083,6 +2307,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_printStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterPrintStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitPrintStmt(this);
+		}
 	}
 
 	public final PrintStmtContext printStmt() throws RecognitionException {
@@ -2168,6 +2400,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterIfStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitIfStmt(this);
+		}
 	}
 
 	public final IfStmtContext ifStmt() throws RecognitionException {
@@ -2260,6 +2500,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_switchStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterSwitchStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitSwitchStmt(this);
+		}
 	}
 
 	public final SwitchStmtContext switchStmt() throws RecognitionException {
@@ -2309,6 +2557,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cases; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterCases(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitCases(this);
+		}
 	}
 
 	public final CasesContext cases() throws RecognitionException {
@@ -2374,6 +2630,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_caseStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterCaseStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitCaseStmt(this);
+		}
 	}
 
 	public final CaseStmtContext caseStmt() throws RecognitionException {
@@ -2426,6 +2690,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_defaultStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterDefaultStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitDefaultStmt(this);
+		}
 	}
 
 	public final DefaultStmtContext defaultStmt() throws RecognitionException {
@@ -2477,6 +2749,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whileStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterWhileStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitWhileStmt(this);
+		}
 	}
 
 	public final WhileStmtContext whileStmt() throws RecognitionException {
@@ -2527,6 +2807,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterForStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitForStmt(this);
+		}
 	}
 
 	public final ForStmtContext forStmt() throws RecognitionException {
@@ -2597,6 +2885,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_range; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterRange(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitRange(this);
+		}
 	}
 
 	public final RangeContext range() throws RecognitionException {
@@ -2638,6 +2934,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_guardStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterGuardStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitGuardStmt(this);
+		}
 	}
 
 	public final GuardStmtContext guardStmt() throws RecognitionException {
@@ -2678,6 +2982,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_breakStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterBreakStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitBreakStmt(this);
+		}
 	}
 
 	public final BreakStmtContext breakStmt() throws RecognitionException {
@@ -2708,6 +3020,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_continueStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterContinueStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitContinueStmt(this);
+		}
 	}
 
 	public final ContinueStmtContext continueStmt() throws RecognitionException {
@@ -2741,6 +3061,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterReturnStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitReturnStmt(this);
+		}
 	}
 
 	public final ReturnStmtContext returnStmt() throws RecognitionException {
@@ -2798,26 +3126,66 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public StringEmbededExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStringEmbededExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStringEmbededExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringExprContext extends ExprContext {
 		public TerminalNode STR() { return getToken(GrammarParser.STR, 0); }
 		public StringExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterStringExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitStringExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class NilExprContext extends ExprContext {
 		public TerminalNode NIL() { return getToken(GrammarParser.NIL, 0); }
 		public NilExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterNilExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitNilExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdExprContext extends ExprContext {
 		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
 		public IdExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterIdExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitIdExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IsEmptyExprContext extends ExprContext {
 		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
 		public IsEmptyExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterIsEmptyExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitIsEmptyExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class LogicalOperationExprContext extends ExprContext {
@@ -2831,6 +3199,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public LogicalOperationExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterLogicalOperationExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitLogicalOperationExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FloatEmbededExprContext extends ExprContext {
@@ -2839,6 +3215,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public FloatEmbededExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterFloatEmbededExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitFloatEmbededExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class VectorAccessExprContext extends ExprContext {
@@ -2847,6 +3231,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public VectorAccessExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterVectorAccessExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitVectorAccessExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class GroupExprContext extends ExprContext {
@@ -2854,6 +3246,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public GroupExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterGroupExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitGroupExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ArithmeticOperationExprContext extends ExprContext {
@@ -2867,6 +3267,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public ArithmeticOperationExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterArithmeticOperationExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitArithmeticOperationExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ComparisonOperationExprContext extends ExprContext {
@@ -2880,6 +3288,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public ComparisonOperationExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterComparisonOperationExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitComparisonOperationExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class RelationalOperationExprContext extends ExprContext {
@@ -2893,16 +3309,40 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public RelationalOperationExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterRelationalOperationExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitRelationalOperationExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class DigitExprContext extends ExprContext {
 		public TerminalNode DIGIT() { return getToken(GrammarParser.DIGIT, 0); }
 		public DigitExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterDigitExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitDigitExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class CountExprContext extends ExprContext {
 		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
 		public CountExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterCountExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitCountExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IntEmbededExprContext extends ExprContext {
@@ -2911,6 +3351,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public IntEmbededExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterIntEmbededExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitIntEmbededExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class UnaryOperationExprContext extends ExprContext {
@@ -2920,10 +3368,26 @@ public class GrammarParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public UnaryOperationExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterUnaryOperationExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitUnaryOperationExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class BooleanExprContext extends ExprContext {
 		public BooleanExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterBooleanExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitBooleanExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FuncCallExprContext extends ExprContext {
@@ -2931,6 +3395,14 @@ public class GrammarParser extends Parser {
 			return getRuleContext(FuncCallContext.class,0);
 		}
 		public FuncCallExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterFuncCallExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitFuncCallExpr(this);
+		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -3306,6 +3778,14 @@ public class GrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitType(this);
+		}
 	}
 
 	public final TypeContext type() throws RecognitionException {

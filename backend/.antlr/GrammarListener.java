@@ -49,18 +49,6 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitTypeValueVarDeclaration(GrammarParser.TypeValueVarDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code TypeVarDeclaration}
-	 * labeled alternative in {@link GrammarParser#varDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TypeVarDeclaration}
-	 * labeled alternative in {@link GrammarParser#varDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ValueVarDeclaration}
 	 * labeled alternative in {@link GrammarParser#varDeclaration}.
 	 * @param ctx the parse tree
@@ -72,6 +60,18 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValueVarDeclaration(GrammarParser.ValueVarDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code TypeVarDeclaration}
+	 * labeled alternative in {@link GrammarParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TypeVarDeclaration}
+	 * labeled alternative in {@link GrammarParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ValueVarAssignment}
 	 * labeled alternative in {@link GrammarParser#varAssignment}.

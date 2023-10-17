@@ -197,9 +197,6 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			})
 		}
 	case "+":
-		// Agregar comentario
-		v.Generator.AddComment("-----Suma-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
@@ -209,12 +206,31 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType)) ||
 			(leftValue.GetDataType() == StringType && rightValue.GetDataType() == StringType) {
 
+			// Agregar comentario
+			v.Generator.AddComment("-----Suma-----")
+
 			// GEneracion C3D
 			if leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType {
 				// Agregar la expresión a la lista de expresiones
 				v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "+")
 			} else {
-				fmt.Println("Suma de strings")
+				v.Generator.GenerateConcatString()
+
+				size := strconv.Itoa(0)
+
+				v.Generator.AddExpression(newTemp, "P", fmt.Sprintf("%v", size), "+")
+				v.Generator.AddExpression(newTemp, newTemp, "1", "+")
+				v.Generator.AddSetStack("(int)"+newTemp, leftValue.GetValue())
+				v.Generator.AddExpression(newTemp, newTemp, "1", "+")
+				v.Generator.AddSetStack("(int)"+newTemp, rightValue.GetValue())
+				v.Generator.AddExpression("P", "P", fmt.Sprintf("%v", size), "+")
+
+				v.Generator.AddCall("_concat_string_")
+
+				newTemp = v.Generator.NewTemp()
+
+				v.Generator.AddGetStack(newTemp, "(int)P")
+				v.Generator.AddExpression("P", "P", fmt.Sprintf("%v", size), "-")
 			}
 
 			// Realizar la operación de multiplicación
@@ -222,18 +238,15 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			dataType := leftValue.GetDataType()
 
 			if dataType == IntType {
-				fmt.Print("Suma de enteros")
 				leftInt, _ := strconv.Atoi(leftValue.GetValue())
 				rightInt, _ := strconv.Atoi(rightValue.GetValue())
 				resultValue = strconv.Itoa(leftInt + rightInt)
 			} else if dataType == FloatType {
-				fmt.Print("Suma de floats")
 				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
 				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
 				resultValue = strconv.FormatFloat(leftFloat+rightFloat, 'f', 4, 64)
 			} else {
-				fmt.Print("Suma de Strings")
-				resultValue = leftValue.GetValue() + rightValue.GetValue()
+				resultValue = newTemp
 			}
 
 			return structures.Primitive{

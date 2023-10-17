@@ -24,6 +24,7 @@ type Generator struct {
 	// Native Flags
 	PrintStringFlag  bool
 	PrintBooleanFlag bool
+	ConcatStringFlag bool
 
 	// Transfers
 	BreakLabel    string
@@ -45,6 +46,7 @@ func NewGenerator() Generator {
 
 		PrintStringFlag:  true,
 		PrintBooleanFlag: true,
+		ConcatStringFlag: true,
 
 		MainCode: false,
 
@@ -238,7 +240,7 @@ func (g *Generator) GenerateFinalCode() {
 	//****************** add main
 	g.FinalCode = append(g.FinalCode, "/*------MAIN------*/\n")
 	g.FinalCode = append(g.FinalCode, "int main() {\n")
-	g.FinalCode = append(g.FinalCode, "\tP = 0; H = 0;\n\n")
+	//g.FinalCode = append(g.FinalCode, "\tP = 0; H = 0;\n\n")
 	for _, s := range g.Code {
 		g.FinalCode = append(g.FinalCode, "\t"+s.(string))
 	}
@@ -318,4 +320,54 @@ func (g *Generator) GeneratePrintBoolean() {
 			g.PrintBooleanFlag = false
 		}
 	*/
+}
+
+func (g *Generator) GenerateConcatString() {
+	if g.ConcatStringFlag {
+		conca := ""
+		conca1 := ""
+		temp := g.NewTemp()    // t2
+		auxTemp := g.NewTemp() // t3
+		EV := g.NewLabel()     // L0
+		EF := g.NewLabel()     // L1
+
+		g.Natives = append(g.Natives, "void _concat_string_() {\n")
+
+		g.Natives = append(g.Natives, "\t"+temp+" = H + 0;\n")    // t2
+		g.Natives = append(g.Natives, "\t"+auxTemp+" = P + 1;\n") // t3
+		conca += "stack[(int)P] = " + temp + ";\n"                // 26
+
+		temp = g.NewTemp()        // t4
+		newAuxTemp := g.NewTemp() // t5
+		g.Natives = append(g.Natives, "\t"+newAuxTemp+" = stack[(int) "+auxTemp+"];\n")
+		g.Natives = append(g.Natives, "\t"+temp+" = P + 2;\n")
+		conca1 += newAuxTemp + " = stack[(int)" + temp + "];\n" // 15
+		g.Natives = append(g.Natives, "\t"+EV+":\n")            // E0
+		temp = g.NewTemp()                                      // t6
+		g.Natives = append(g.Natives, "\t"+temp+" = heap[(int)"+newAuxTemp+"];\n")
+		g.Natives = append(g.Natives, "\tif ("+temp+" == -1) goto "+EF+";\n")
+		g.Natives = append(g.Natives, "\theap[(int)H] = "+temp+";\n")
+		g.Natives = append(g.Natives, "\tH = H + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newAuxTemp+" = "+newAuxTemp+"+ 1;\n")
+		g.Natives = append(g.Natives, "\tgoto "+EV+";\n")
+		g.Natives = append(g.Natives, "\t"+EF+":\n")
+		g.Natives = append(g.Natives, "\t"+conca1+"\n")
+		newLabel := g.NewLabel() // L2
+		EV = g.NewLabel()        // L3
+		g.Natives = append(g.Natives, "\t"+EV+":")
+		g.Natives = append(g.Natives, "\t"+temp+" = heap[(int)"+newAuxTemp+"];\n")
+		g.Natives = append(g.Natives, "\tif ("+temp+" == -1) goto "+newLabel+";\n")
+		g.Natives = append(g.Natives, "\theap[(int)H] = "+temp+";\n")
+		g.Natives = append(g.Natives, "\tH = H + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newAuxTemp+" = "+newAuxTemp+"+ 1;\n")
+		g.Natives = append(g.Natives, "\tgoto "+EV+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel+":\n")
+		g.Natives = append(g.Natives, "\theap[(int)H] = -1;\n")
+		g.Natives = append(g.Natives, "\tH = H + 1;\n")
+		g.Natives = append(g.Natives, "\t"+conca+"\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "\t}\n\n")
+
+		g.ConcatStringFlag = false
+	}
 }

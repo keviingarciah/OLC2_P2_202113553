@@ -64,18 +64,6 @@ public class GrammarBaseListener implements GrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterValueVarDeclaration(GrammarParser.ValueVarDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -83,6 +71,18 @@ public class GrammarBaseListener implements GrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitValueVarDeclaration(GrammarParser.ValueVarDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypeVarDeclaration(GrammarParser.TypeVarDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
