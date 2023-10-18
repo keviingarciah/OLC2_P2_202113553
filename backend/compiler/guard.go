@@ -5,7 +5,7 @@ import (
 	"backend/structures"
 )
 
-func (v *Visitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
+func (v *Visitor) VisitGuardStmt(ctx *parser.GuardStmtContext) interface{} {
 	// Entrar a un nuevo ámbito (entorno) y salir de él cuando se termine el bloque
 	v.PushEnvironment(environmentName)
 	defer v.PopEnvironment()
@@ -24,44 +24,20 @@ func (v *Visitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
 	}
 
 	// Agregar comentario
-	v.Generator.AddComment("-----If-----")
+	v.Generator.AddComment("-----Guard-----")
 
 	// C3D
 	EV := v.Generator.NewLabel()
 	EF := v.Generator.NewLabel()
-	newLabel := v.Generator.NewLabel()
 
-	v.Generator.AddIf(condition.GetValue(), "1", "==", EV)
+	v.Generator.AddIf(condition.GetValue(), "1", "!=", EV)
 	v.Generator.AddGoto(EF)
 
 	v.Generator.AddLabel(EV)
 
-	v.Visit(ctx.Block(0))
-
-	v.Generator.AddGoto(newLabel)
+	v.Visit(ctx.Block())
 
 	v.Generator.AddLabel(EF)
-
-	if ctx.ELSE() != nil {
-		// Si hay un "else", verifica si es seguido por otro "ifstmt" o un bloque
-		if ctx.IfStmt() != nil {
-			// Si es un "else if", visita el contexto "ifstmt"
-
-			// Agregar comentario
-			v.Generator.AddComment("-----Else If-----")
-			v.Visit(ctx.IfStmt())
-		} else if ctx.Block(1) != nil {
-			// Si es un "else" tradicional, visita el bloque del "else"
-
-			// Agregar comentario
-			v.Generator.AddComment("-----Else-----")
-			v.Visit(ctx.Block(1))
-		}
-	}
-
-	v.Generator.AddGoto(newLabel)
-
-	v.Generator.AddLabel(newLabel)
 
 	return nil
 }

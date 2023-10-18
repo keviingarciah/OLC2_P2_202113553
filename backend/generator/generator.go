@@ -12,8 +12,8 @@ type Generator struct {
 	// Lists
 	TempList []interface{}
 
-	// Special Temporal
-	BooleanTemp string
+	// Special
+	DefaultLabel string
 
 	// Code
 	Code      []interface{}

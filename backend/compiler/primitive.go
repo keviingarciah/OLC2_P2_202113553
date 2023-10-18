@@ -129,7 +129,7 @@ func (v *Visitor) VisitNilExpr(ctx *parser.NilExprContext) interface{} {
 
 func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
 	// Agrergar comentario
-	v.Generator.AddComment("-----Id Primitivo-----")
+	//v.Generator.AddComment("-----Id Primitivo-----")
 	id := ctx.GetText()
 
 	if symbol, ok := v.FindSymbol(id); ok {

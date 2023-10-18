@@ -107,15 +107,7 @@ func (v *Visitor) VisitForStmt(ctx *parser.ForStmtContext) interface{} {
 						Message: "Tipos de variables incompatibles.",
 					})
 				}
-
 			}
-			/*
-				// Entrar a un nuevo ámbito (entorno) para el bloque del if
-				v.PushEnvironment(environmentName)
-				defer v.PopEnvironment() // Salir del ámbito cuando se termine el bloque del if
-
-				v.Visit(ctx.Block())
-			*/
 		}
 	}
 
