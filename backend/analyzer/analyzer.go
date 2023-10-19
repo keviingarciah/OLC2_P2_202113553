@@ -4,8 +4,6 @@ import (
 	"backend/compiler"
 	"backend/parser"
 
-	"fmt"
-
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/gofiber/fiber/v2"
 )
@@ -26,8 +24,6 @@ type Request struct {
 // ------------------ Analyzer ------------------
 func Analyzer() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		fmt.Println("\nParsing code.............")
-
 		// Limpiar la consola
 		//compiler.ClearPrint()
 

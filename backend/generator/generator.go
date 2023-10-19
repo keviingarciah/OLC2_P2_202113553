@@ -22,9 +22,9 @@ type Generator struct {
 	FuncCode  []interface{}
 
 	// Native Flags
-	PrintStringFlag  bool
-	PrintBooleanFlag bool
-	ConcatStringFlag bool
+	PrintStringFlag   bool
+	ConcatStringFlag  bool
+	CompareStringFlag bool
 
 	// Transfers
 	BreakLabel    string
@@ -44,9 +44,9 @@ func NewGenerator() Generator {
 		BreakLabel:    "",
 		ContinueLabel: "",
 
-		PrintStringFlag:  true,
-		PrintBooleanFlag: true,
-		ConcatStringFlag: true,
+		PrintStringFlag:   true,
+		ConcatStringFlag:  true,
+		CompareStringFlag: true,
 
 		MainCode: false,
 
@@ -272,56 +272,6 @@ func (g *Generator) PrintString() {
 	}
 }
 
-func (g *Generator) GeneratePrintBoolean() {
-	/*
-		if g.PrintBooleanFlag {
-
-			if value {
-				trueLabel := g.NewLabel()
-				endLabel := g.NewLabel()
-
-				g.AddIf("t1", "0", "==", trueLabel)
-				g.AddPrintf("c", "t")
-				g.AddPrintf("c", "r")
-				g.AddPrintf("c", "u")
-				g.AddPrintf("c", "e")
-				g.AddGoto(endLabel)
-
-				g.AddLabel(trueLabel)
-				g.AddPrintf("c", "f")
-				g.AddPrintf("c", "a")
-				g.AddPrintf("c", "l")
-				g.AddPrintf("c", "s")
-				g.AddPrintf("c", "e")
-
-				g.AddLabel(endLabel)
-				g.AddBr()
-			} else {
-				falseLabel := g.NewLabel()
-				endLabel := g.NewLabel()
-
-				g.AddIf("t1", "0", "==", falseLabel)
-				g.AddPrintf("c", "t")
-				g.AddPrintf("c", "r")
-				g.AddPrintf("c", "u")
-				g.AddPrintf("c", "e")
-				g.AddGoto(endLabel)
-
-				g.AddLabel(falseLabel)
-				g.AddPrintf("c", "f")
-				g.AddPrintf("c", "a")
-				g.AddPrintf("c", "l")
-				g.AddPrintf("c", "s")
-				g.AddPrintf("c", "e")
-
-				g.AddLabel(endLabel)
-				g.AddBr()
-			}
-			g.PrintBooleanFlag = false
-		}
-	*/
-}
-
 func (g *Generator) GenerateConcatString() {
 	if g.ConcatStringFlag {
 		conca := ""
@@ -369,5 +319,52 @@ func (g *Generator) GenerateConcatString() {
 		g.Natives = append(g.Natives, "\t}\n\n")
 
 		g.ConcatStringFlag = false
+	}
+}
+
+func (g *Generator) GenerateCompareString() {
+	if g.CompareStringFlag {
+		conca := ""
+		// conca1 := "" // conca1
+		temp := g.NewTemp()       // t2
+		auxTemp := g.NewTemp()    // t3
+		newTemp := g.NewTemp()    // t4
+		newLabel0 := g.NewLabel() // L0
+		newLabel1 := g.NewLabel() // L1
+		newLabel2 := g.NewLabel() // L2
+		newLabel3 := g.NewLabel() // L3
+
+		g.Natives = append(g.Natives, "void _compare_string_() {\n")
+
+		g.Natives = append(g.Natives, "\t"+temp+" = P + 1;\n")
+		g.Natives = append(g.Natives, "\t"+auxTemp+" = stack[(int)"+temp+"];\n")
+		g.Natives = append(g.Natives, "\t"+temp+" = "+temp+" + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp+" = stack[(int)"+temp+"];\n")
+		g.Natives = append(g.Natives, "\t"+newLabel1+":\n")
+
+		temp = g.NewTemp() // t5
+
+		g.Natives = append(g.Natives, "\t"+temp+" = heap[(int)"+auxTemp+"];\n")
+		conca += auxTemp + " = " + auxTemp + " + 1;\n"
+
+		auxTemp = g.NewTemp() // t6
+
+		g.Natives = append(g.Natives, "\t"+auxTemp+" = heap[(int)"+newTemp+"];\n")
+		g.Natives = append(g.Natives, "\tif ("+temp+" != "+auxTemp+") goto "+newLabel3+";\n")
+		g.Natives = append(g.Natives, "\tif ("+temp+" == -1) goto "+newLabel2+";\n")
+		g.Natives = append(g.Natives, "\t"+conca+"\n")
+
+		g.Natives = append(g.Natives, "\t"+newTemp+" = "+newTemp+" + 1;\n")
+		g.Natives = append(g.Natives, "\tgoto "+newLabel1+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel2+":\n")
+		g.Natives = append(g.Natives, "\tstack[(int)P] = 1;\n")
+		g.Natives = append(g.Natives, "\tgoto "+newLabel0+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel3+":\n")
+		g.Natives = append(g.Natives, "\tstack[(int)P] = 0;\n")
+		g.Natives = append(g.Natives, "\t"+newLabel0+":\n") //
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "\t}\n\n")
+
+		g.CompareStringFlag = false
 	}
 }

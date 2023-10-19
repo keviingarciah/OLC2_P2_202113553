@@ -28,7 +28,7 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			//agregar codigo en el main
 			newTemp1 := v.Generator.NewTemp()
 			newTemp2 := v.Generator.NewTemp()
-			size := strconv.Itoa(0)
+			size := strconv.Itoa(1)
 
 			v.Generator.AddExpression(newTemp1, "P", size, "+")              //nuevo temporal en pos vacia
 			v.Generator.AddExpression(newTemp1, newTemp1, "1", "+")          //se deja espacio de retorno
@@ -70,7 +70,6 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			v.Generator.AddLabel(lvl2)
 
 			v.Generator.AddPrintf("c", "32")
-
 		}
 	}
 	// Salto de linea

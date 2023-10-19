@@ -17,12 +17,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 	// Operaciones aritméticas
 	switch sign {
 	case "%":
-		// Agregar comentario
-		v.Generator.AddComment("-----Módulo-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Módulo-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType) &&
@@ -84,12 +84,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			})
 		}
 	case "*":
-		// Agregar comentario
-		v.Generator.AddComment("-----Multiplicación-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Multiplicación-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
@@ -124,12 +124,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			})
 		}
 	case "/":
-		// Agregar comentario
-		v.Generator.AddComment("-----División-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----División-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
@@ -201,13 +201,13 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
 
+		// Agregar comentario
+		v.Generator.AddComment("-----Suma-----")
+
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if ((leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&
 			(rightValue.GetDataType() == IntType || rightValue.GetDataType() == FloatType)) ||
 			(leftValue.GetDataType() == StringType && rightValue.GetDataType() == StringType) {
-
-			// Agregar comentario
-			v.Generator.AddComment("-----Suma-----")
 
 			// GEneracion C3D
 			if leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType {
@@ -261,12 +261,12 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			})
 		}
 	case "-":
-		// Agregar comentario
-		v.Generator.AddComment("-----Resta-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Resta-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || leftValue.GetDataType() == FloatType) &&

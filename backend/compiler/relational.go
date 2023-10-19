@@ -15,12 +15,12 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 	// Operaciones relacionales
 	switch sign {
 	case "<":
-		// Agregar comentario
-		v.Generator.AddComment("-----Menor Que-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Menor Que-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || rightValue.GetDataType() == IntType) ||
@@ -51,7 +51,28 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// 💀
+				// Generación C3D
+				lvl1 := v.Generator.NewLabel()
+				lvl2 := v.Generator.NewLabel()
+				leftTemp := v.Generator.NewTemp()
+				rightTemp := v.Generator.NewTemp()
+
+				v.Generator.AddGetHeap(leftTemp, "(int)"+leftValue.GetValue())
+				v.Generator.AddGetHeap(rightTemp, "(int)"+rightValue.GetValue())
+
+				v.Generator.AddIf(leftTemp, rightTemp, "<", lvl1)
+				v.Generator.AddAssign(newTemp, "0")
+				v.Generator.AddGoto(lvl2)
+
+				v.Generator.AddLabel(lvl1)
+				v.Generator.AddAssign(newTemp, "1")
+
+				v.Generator.AddLabel(lvl2)
+				reTemp := v.Generator.NewTemp()
+				v.Generator.AddAssign(reTemp, newTemp)
+
+				// Realizar la operación relacional
+				resultValue = reTemp
 			}
 
 			// Retornar el valor
@@ -67,12 +88,12 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 			})
 		}
 	case "<=":
-		// Agregar comentario
-		v.Generator.AddComment("-----Menor o Igual Que-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Menor o Igual Que-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || rightValue.GetDataType() == IntType) ||
@@ -103,7 +124,28 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// 💀
+				// Generación C3D
+				lvl1 := v.Generator.NewLabel()
+				lvl2 := v.Generator.NewLabel()
+				leftTemp := v.Generator.NewTemp()
+				rightTemp := v.Generator.NewTemp()
+
+				v.Generator.AddGetHeap(leftTemp, "(int)"+leftValue.GetValue())
+				v.Generator.AddGetHeap(rightTemp, "(int)"+rightValue.GetValue())
+
+				v.Generator.AddIf(leftTemp, rightTemp, "<=", lvl1)
+				v.Generator.AddAssign(newTemp, "0")
+				v.Generator.AddGoto(lvl2)
+
+				v.Generator.AddLabel(lvl1)
+				v.Generator.AddAssign(newTemp, "1")
+
+				v.Generator.AddLabel(lvl2)
+				reTemp := v.Generator.NewTemp()
+				v.Generator.AddAssign(reTemp, newTemp)
+
+				// Realizar la operación relacional
+				resultValue = reTemp
 			}
 
 			// Retornar el valor
@@ -119,12 +161,12 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 			})
 		}
 	case ">":
-		// Agregar comentario
-		v.Generator.AddComment("-----Mayor Que-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Mayor Que-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || rightValue.GetDataType() == IntType) ||
@@ -155,7 +197,28 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// 💀
+				// Generación C3D
+				lvl1 := v.Generator.NewLabel()
+				lvl2 := v.Generator.NewLabel()
+				leftTemp := v.Generator.NewTemp()
+				rightTemp := v.Generator.NewTemp()
+
+				v.Generator.AddGetHeap(leftTemp, "(int)"+leftValue.GetValue())
+				v.Generator.AddGetHeap(rightTemp, "(int)"+rightValue.GetValue())
+
+				v.Generator.AddIf(leftTemp, rightTemp, ">", lvl1)
+				v.Generator.AddAssign(newTemp, "0")
+				v.Generator.AddGoto(lvl2)
+
+				v.Generator.AddLabel(lvl1)
+				v.Generator.AddAssign(newTemp, "1")
+
+				v.Generator.AddLabel(lvl2)
+				reTemp := v.Generator.NewTemp()
+				v.Generator.AddAssign(reTemp, newTemp)
+
+				// Realizar la operación relacional
+				resultValue = reTemp
 			}
 
 			// Retornar el valor
@@ -171,12 +234,12 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 			})
 		}
 	case ">=":
-		// Agregar comentario
-		v.Generator.AddComment("-----Mayor o Igual Que-----")
-
 		// Obtener los valores izquierdo y derecho
 		leftValue := v.Visit(ctx.GetLeft()).(structures.Primitive)
 		rightValue := v.Visit(ctx.GetRight()).(structures.Primitive)
+
+		// Agregar comentario
+		v.Generator.AddComment("-----Mayor o Igual Que-----")
 
 		// Verificar si ambos operandos son de tipo IntType o FloatType
 		if (leftValue.GetDataType() == IntType || rightValue.GetDataType() == IntType) ||
@@ -207,7 +270,28 @@ func (v *Visitor) VisitRelationalOperationExpr(ctx *parser.RelationalOperationEx
 				resultValue = reTemp
 
 			} else if leftValue.GetDataType() == StringType {
-				// 💀
+				// Generación C3D
+				lvl1 := v.Generator.NewLabel()
+				lvl2 := v.Generator.NewLabel()
+				leftTemp := v.Generator.NewTemp()
+				rightTemp := v.Generator.NewTemp()
+
+				v.Generator.AddGetHeap(leftTemp, "(int)"+leftValue.GetValue())
+				v.Generator.AddGetHeap(rightTemp, "(int)"+rightValue.GetValue())
+
+				v.Generator.AddIf(leftTemp, rightTemp, ">=", lvl1)
+				v.Generator.AddAssign(newTemp, "0")
+				v.Generator.AddGoto(lvl2)
+
+				v.Generator.AddLabel(lvl1)
+				v.Generator.AddAssign(newTemp, "1")
+
+				v.Generator.AddLabel(lvl2)
+				reTemp := v.Generator.NewTemp()
+				v.Generator.AddAssign(reTemp, newTemp)
+
+				// Realizar la operación relacional
+				resultValue = reTemp
 			}
 
 			// Retornar el valor

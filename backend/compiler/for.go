@@ -33,9 +33,11 @@ func (v *Visitor) VisitForStmt(ctx *parser.ForStmtContext) interface{} {
 		start = v.Visit(ctx.Range_().Expr(0)).(structures.Primitive)
 		end = v.Visit(ctx.Range_().Expr(1)).(structures.Primitive)
 
-		// Convert to int
-		startInt, _ := strconv.Atoi(start.GetValue())
-		endInt, _ := strconv.Atoi(end.GetValue())
+		/*
+			// Convert to int
+			startInt, _ := strconv.Atoi(start.GetValue())
+			endInt, _ := strconv.Atoi(end.GetValue())
+		*/
 
 		// Save symbol address
 		address := strconv.Itoa(v.Generator.StackCounter)
@@ -86,30 +88,31 @@ func (v *Visitor) VisitForStmt(ctx *parser.ForStmtContext) interface{} {
 
 		v.Generator.AddLabel(l3)
 
-		// Evaluar y ejecutar el bucle for similar a Python
-		for i := startInt; i <= endInt; i++ {
+		/*
+			// Evaluar y ejecutar el bucle for similar a Python
+			for i := startInt; i <= endInt; i++ {
 
-			if symbol, ok := v.FindSymbol(variableName); ok {
-				// Verificamos si los tipos son compatibles antes de asignar el nuevo valor
-				if IntType == symbol.DataType {
-					// Asignamos el nuevo valor a la variable existente en el ambiente original donde se declaró
-					symbol.Value = strconv.Itoa(i)
-					v.currentEnv.Symbols[variableName] = symbol
+				if symbol, ok := v.FindSymbol(variableName); ok {
+					// Verificamos si los tipos son compatibles antes de asignar el nuevo valor
+					if IntType == symbol.DataType {
+						// Asignamos el nuevo valor a la variable existente en el ambiente original donde se declaró
+						symbol.Value = strconv.Itoa(i)
+						v.currentEnv.Symbols[variableName] = symbol
 
-					// También se debe actualizar el valor en el ambiente de origen la variable
-					if env, found := v.FindSymbolEnvironment(variableName); found {
-						env.Symbols[variableName] = symbol
+						// También se debe actualizar el valor en el ambiente de origen la variable
+						if env, found := v.FindSymbolEnvironment(variableName); found {
+							env.Symbols[variableName] = symbol
+						}
+					} else {
+						v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
+							Line:    ctx.GetStart().GetLine(),
+							Column:  ctx.GetStart().GetColumn(),
+							Message: "Tipos de variables incompatibles.",
+						})
 					}
-				} else {
-					v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
-						Line:    ctx.GetStart().GetLine(),
-						Column:  ctx.GetStart().GetColumn(),
-						Message: "Tipos de variables incompatibles.",
-					})
 				}
 			}
-		}
+		*/
 	}
-
 	return nil
 }
