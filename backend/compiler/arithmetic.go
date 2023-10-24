@@ -64,13 +64,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				}
 			}
 
-			// Realizar la operación de modulo
-			var resultValue string
+			// Retornar el valor
 			dataType := leftValue.GetDataType()
-
-			leftInt, _ := strconv.Atoi(leftValue.GetValue())
-			rightInt, _ := strconv.Atoi(rightValue.GetValue())
-			resultValue = strconv.Itoa(leftInt % rightInt)
+			resultValue := newTemp
 
 			return structures.Primitive{
 				Value:    resultValue,
@@ -98,19 +94,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			// Agregar la expresión a la lista de expresiones
 			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "*")
 
-			// Realizar la operación de multiplicación
-			var resultValue string
+			// Retornar el valor
 			dataType := leftValue.GetDataType()
-
-			if dataType == IntType {
-				leftInt, _ := strconv.Atoi(leftValue.GetValue())
-				rightInt, _ := strconv.Atoi(rightValue.GetValue())
-				resultValue = strconv.Itoa(leftInt * rightInt)
-			} else {
-				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
-				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
-				resultValue = strconv.FormatFloat(leftFloat*rightFloat, 'f', 4, 64)
-			}
+			resultValue := newTemp
 
 			return structures.Primitive{
 				Value:    resultValue,
@@ -171,19 +157,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				}
 			}
 
-			// Realizar la operación de división
-			var resultValue string
+			// Retornar el valor
 			dataType := leftValue.GetDataType()
-
-			if dataType == IntType {
-				leftInt, _ := strconv.Atoi(leftValue.GetValue())
-				rightInt, _ := strconv.Atoi(rightValue.GetValue())
-				resultValue = strconv.Itoa(leftInt / rightInt)
-			} else {
-				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
-				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
-				resultValue = strconv.FormatFloat(leftFloat/rightFloat, 'f', 4, 64)
-			}
+			resultValue := newTemp
 
 			return structures.Primitive{
 				Value:    resultValue,
@@ -233,21 +209,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				v.Generator.AddExpression("P", "P", fmt.Sprintf("%v", size), "-")
 			}
 
-			// Realizar la operación de multiplicación
-			var resultValue string
+			// Retornar el valor
 			dataType := leftValue.GetDataType()
-
-			if dataType == IntType {
-				leftInt, _ := strconv.Atoi(leftValue.GetValue())
-				rightInt, _ := strconv.Atoi(rightValue.GetValue())
-				resultValue = strconv.Itoa(leftInt + rightInt)
-			} else if dataType == FloatType {
-				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
-				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
-				resultValue = strconv.FormatFloat(leftFloat+rightFloat, 'f', 4, 64)
-			} else {
-				resultValue = newTemp
-			}
+			resultValue := newTemp
 
 			return structures.Primitive{
 				Value:    resultValue,
@@ -275,19 +239,9 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			// Agregar la expresión a la lista de expresiones
 			v.Generator.AddExpression(newTemp, leftValue.GetValue(), rightValue.GetValue(), "-")
 
-			// Realizar la operación de multiplicación
-			var resultValue string
+			// Retornar el valor
 			dataType := leftValue.GetDataType()
-
-			if dataType == IntType {
-				leftInt, _ := strconv.Atoi(leftValue.GetValue())
-				rightInt, _ := strconv.Atoi(rightValue.GetValue())
-				resultValue = strconv.Itoa(leftInt - rightInt)
-			} else {
-				leftFloat, _ := strconv.ParseFloat(leftValue.GetValue(), 64)
-				rightFloat, _ := strconv.ParseFloat(rightValue.GetValue(), 64)
-				resultValue = strconv.FormatFloat(leftFloat-rightFloat, 'f', 4, 64)
-			}
+			resultValue := newTemp
 
 			return structures.Primitive{
 				Value:    resultValue,

@@ -27,8 +27,8 @@ type Generator struct {
 	CompareStringFlag bool
 
 	// Transfers
-	BreakLabel    string
-	ContinueLabel string
+	BreakStack    []string
+	ContinueStack []string
 
 	// Main Code Flag
 	MainCode bool
@@ -39,10 +39,8 @@ type Generator struct {
 
 func NewGenerator() Generator {
 	generator := Generator{
-		Temporal:      0,
-		Label:         0,
-		BreakLabel:    "",
-		ContinueLabel: "",
+		Temporal: 0,
+		Label:    0,
 
 		PrintStringFlag:   true,
 		ConcatStringFlag:  true,
@@ -65,16 +63,6 @@ func (g Generator) GetFinalCode() []interface{} {
 
 func (g Generator) GetTemps() []interface{} {
 	return g.TempList
-}
-
-// add break lvl
-func (g *Generator) AddBreak(lvl string) {
-	g.BreakLabel = lvl
-}
-
-// add continue lvl
-func (g *Generator) AddContinue(lvl string) {
-	g.ContinueLabel = lvl
 }
 
 // Generar un nuevo temporal
