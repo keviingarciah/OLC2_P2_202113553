@@ -23,11 +23,11 @@ func (v *BaseGrammarVisitor) VisitTypeValueVarDeclaration(ctx *TypeValueVarDecla
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseGrammarVisitor) VisitTypeVarDeclaration(ctx *TypeVarDeclarationContext) interface{} {
+func (v *BaseGrammarVisitor) VisitValueVarDeclaration(ctx *ValueVarDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseGrammarVisitor) VisitValueVarDeclaration(ctx *ValueVarDeclarationContext) interface{} {
+func (v *BaseGrammarVisitor) VisitTypeVarDeclaration(ctx *TypeVarDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -216,6 +216,10 @@ func (v *BaseGrammarVisitor) VisitComparisonOperationExpr(ctx *ComparisonOperati
 }
 
 func (v *BaseGrammarVisitor) VisitRelationalOperationExpr(ctx *RelationalOperationExprContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseGrammarVisitor) VisitCharacterExpr(ctx *CharacterExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

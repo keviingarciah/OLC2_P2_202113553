@@ -19,11 +19,11 @@ type GrammarVisitor interface {
 	// Visit a parse tree produced by GrammarParser#TypeValueVarDeclaration.
 	VisitTypeValueVarDeclaration(ctx *TypeValueVarDeclarationContext) interface{}
 
-	// Visit a parse tree produced by GrammarParser#TypeVarDeclaration.
-	VisitTypeVarDeclaration(ctx *TypeVarDeclarationContext) interface{}
-
 	// Visit a parse tree produced by GrammarParser#ValueVarDeclaration.
 	VisitValueVarDeclaration(ctx *ValueVarDeclarationContext) interface{}
+
+	// Visit a parse tree produced by GrammarParser#TypeVarDeclaration.
+	VisitTypeVarDeclaration(ctx *TypeVarDeclarationContext) interface{}
 
 	// Visit a parse tree produced by GrammarParser#ValueVarAssignment.
 	VisitValueVarAssignment(ctx *ValueVarAssignmentContext) interface{}
@@ -165,6 +165,9 @@ type GrammarVisitor interface {
 
 	// Visit a parse tree produced by GrammarParser#RelationalOperationExpr.
 	VisitRelationalOperationExpr(ctx *RelationalOperationExprContext) interface{}
+
+	// Visit a parse tree produced by GrammarParser#CharacterExpr.
+	VisitCharacterExpr(ctx *CharacterExprContext) interface{}
 
 	// Visit a parse tree produced by GrammarParser#DigitExpr.
 	VisitDigitExpr(ctx *DigitExprContext) interface{}

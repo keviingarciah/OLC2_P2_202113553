@@ -4,7 +4,7 @@ INT: 'Int';
 FLOAT: 'Float';
 STRING: 'String';
 BOOL: 'Bool';
-CHAR: 'Character';
+CHARACTER: 'Character';
 NIL : 'nil';
 
 VAR: 'var';
@@ -46,7 +46,8 @@ UNDERSCORE: '_';
 // * -> cero o mas
 // + -> uno o mas
 DIGIT: [0-9]+ ('.'[0-9]+)?;
-STR: '"'~["]*'"'; // : '"' (~["\r\n] | '""')* '"' ;
+STR: '"'~["]*'"'; 
+CHAR: '\'' ~'\'' '\'';
 ID:  ( '_' | [a-zA-Z] ) [a-zA-Z0-9_]*;
 
 // skip

@@ -36,12 +36,15 @@ func (v *Visitor) VisitTypeValueVarDeclaration(ctx *parser.TypeValueVarDeclarati
 	// Agregar comentario
 	v.Generator.AddComment("-------Declaracion de Variable-------")
 
-	v.Generator.AddSetStack("(int)P", primitive.GetValue())
+	newTemp := v.Generator.NewTemp()
+
+	v.Generator.AddAssign(newTemp, primitive.GetValue())
+	v.Generator.AddSetStack("(int)P", newTemp)
 	v.Generator.AddExpression("P", "P", "1", "+")
 	v.Generator.AddBr()
 
 	// Save the value in the symbol table (env and global)
-	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "var", varId, primitive.GetDataType(), primitive.GetValue(), v.currentEnv.Name, v.Generator.StackCounter)
+	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "var", varId, primitive.GetDataType(), newTemp, v.currentEnv.Name, v.Generator.StackCounter)
 
 	// Aumentar el stack counter
 	v.Generator.StackCounter++
@@ -72,12 +75,15 @@ func (v *Visitor) VisitValueVarDeclaration(ctx *parser.ValueVarDeclarationContex
 	// Agregar comentario
 	v.Generator.AddComment("-------Declaracion de Variable-------")
 
-	v.Generator.AddSetStack("(int)P", primitive.GetValue())
+	newTemp := v.Generator.NewTemp()
+
+	v.Generator.AddAssign(newTemp, primitive.GetValue())
+	v.Generator.AddSetStack("(int)P", newTemp)
 	v.Generator.AddExpression("P", "P", "1", "+")
 	v.Generator.AddBr()
 
 	// Save the value in the symbol table (env and global)
-	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "var", varId, primitive.GetDataType(), primitive.GetValue(), v.currentEnv.Name, v.Generator.StackCounter)
+	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "var", varId, primitive.GetDataType(), newTemp, v.currentEnv.Name, v.Generator.StackCounter)
 
 	// Aumentar el stack counter
 	v.Generator.StackCounter++
@@ -152,12 +158,15 @@ func (v *Visitor) VisitTypeValueLetDeclaration(ctx *parser.TypeValueLetDeclarati
 	// Agregar comentario
 	v.Generator.AddComment("-------Declaracion de Constante-------")
 
-	v.Generator.AddSetStack("(int)P", primitive.GetValue())
+	newTemp := v.Generator.NewTemp()
+
+	v.Generator.AddAssign(newTemp, primitive.GetValue())
+	v.Generator.AddSetStack("(int)P", newTemp)
 	v.Generator.AddExpression("P", "P", "1", "+")
 	v.Generator.AddBr()
 
 	// Save the value in the symbol table (env and global)
-	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "let", varId, primitive.GetDataType(), primitive.GetValue(), v.currentEnv.Name, v.Generator.StackCounter)
+	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "let", varId, primitive.GetDataType(), newTemp, v.currentEnv.Name, v.Generator.StackCounter)
 
 	// Aumentar el stack counter
 	v.Generator.StackCounter++
@@ -188,12 +197,15 @@ func (v *Visitor) VisitValueLetDeclaration(ctx *parser.ValueLetDeclarationContex
 	// Agregar comentario
 	v.Generator.AddComment("-------Declaracion de Constante-------")
 
-	v.Generator.AddSetStack("(int)P", primitive.GetValue())
+	newTemp := v.Generator.NewTemp()
+
+	v.Generator.AddAssign(newTemp, primitive.GetValue())
+	v.Generator.AddSetStack("(int)P", newTemp)
 	v.Generator.AddExpression("P", "P", "1", "+")
 	v.Generator.AddBr()
 
 	// Save the value in the symbol table (env and global)
-	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "let", varId, primitive.GetDataType(), primitive.GetValue(), v.currentEnv.Name, v.Generator.StackCounter)
+	v.SaveSymbol(ctx.GetStart().GetLine(), ctx.GetStart().GetColumn(), "let", varId, primitive.GetDataType(), newTemp, v.currentEnv.Name, v.Generator.StackCounter)
 
 	// Aumentar el stack counter
 	v.Generator.StackCounter++

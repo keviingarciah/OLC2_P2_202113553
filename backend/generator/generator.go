@@ -29,6 +29,7 @@ type Generator struct {
 	// Transfers
 	BreakStack    []string
 	ContinueStack []string
+	ReturnStack   []string
 
 	// Main Code Flag
 	MainCode bool
@@ -214,16 +215,11 @@ func (g *Generator) GenerateFinalCode() {
 	if len(g.Natives) > 0 {
 		g.FinalCode = append(g.FinalCode, "/*------NATIVES------*/\n")
 		g.FinalCode = append(g.FinalCode, g.Natives...)
-
 	}
 	//****************** add functions
 	if len(g.FuncCode) > 0 {
 		g.FinalCode = append(g.FinalCode, "/*------FUNCTIONS------*/\n")
-		/*
-			for _, s := range g.FuncCode {
-				g.FinalCode = append(g.FinalCode, s)
-			}
-		*/
+		g.FinalCode = append(g.FinalCode, g.FuncCode...)
 	}
 	//****************** add main
 	g.FinalCode = append(g.FinalCode, "/*------MAIN------*/\n")

@@ -223,6 +223,7 @@ expr:
 	| NIL					# NilExpr
 	| DIGIT					# DigitExpr
 	| STR					# StringExpr
+	| CHAR 					# CharacterExpr	
 	| funcCall              # FuncCallExpr
 	// Vector
 	| ID '.count'			# CountExpr
@@ -238,5 +239,5 @@ expr:
 
 
 // Types
-type: (INT | FLOAT | STRING | BOOL | CHAR)
+type: (INT | FLOAT | STRING | BOOL | CHARACTER)
     ;

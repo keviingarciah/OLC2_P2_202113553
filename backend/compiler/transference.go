@@ -2,6 +2,7 @@ package compiler
 
 import (
 	"backend/parser"
+	"backend/structures"
 )
 
 // ----------------------------------- BREAK -----------------------------------
@@ -30,9 +31,21 @@ func (v *Visitor) VisitContinueStmt(ctx *parser.ContinueStmtContext) interface{}
 // ----------------------------------- RETURN -----------------------------------
 func (v *Visitor) VisitReturnStmt(ctx *parser.ReturnStmtContext) interface{} {
 	if ctx.Expr() != nil {
-		//return &ReturnTransference{Value: v.Visit(ctx.Expr())}
+		returnValue := v.Visit(ctx.Expr()).(structures.Primitive)
+		newLabel := v.Generator.NewLabel()
+
+		v.Generator.AddSetStack("(int)P", returnValue.GetValue())
+		v.Generator.AddExpression("P", "P", "1", "+")
+
+		v.Generator.AddGoto(newLabel)
+
+		v.Generator.ReturnStack = append(v.Generator.ReturnStack, newLabel)
 		return nil
 	} else {
+		newLabel := v.Generator.NewLabel()
+		v.Generator.AddGoto(newLabel)
+
+		v.Generator.ReturnStack = append(v.Generator.ReturnStack, newLabel)
 		return nil
 	}
 }

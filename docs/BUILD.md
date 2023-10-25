@@ -33,3 +33,9 @@ npm i d3
 npm i graphviz react-graphviz
 npm i svg
 ```
+
+## ANTLR4
+
+```bash
+antlr4 -Dlanguage=Go -o parser -package parser -visitor -no-listener *.g4
+```

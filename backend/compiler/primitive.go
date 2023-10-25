@@ -46,50 +46,49 @@ func (v *Visitor) VisitDigitExpr(ctx *parser.DigitExprContext) interface{} {
 
 func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 	str := strings.Trim(ctx.GetText(), "\"") // get the string
-	if len(str) == 1 {
-		// Agrergar comentario
-		//v.Generator.AddComment("-----Character Primitivo-----")
 
-		char := strconv.Itoa(int(str[0]))
+	// Agregar comentario
+	v.Generator.AddComment("-----String Primitivo-----")
 
-		return structures.Primitive{
-			Value:      char,
-			DataType:   CharacterType, // Puedes definir el tipo de dato según tus necesidades
-			IsTemporal: false,
-		}
-	} else {
-		// Agrergar comentario
-		v.Generator.AddComment("-----String Primitivo-----")
-
-		//nuevo temporal
-		newTemp := v.Generator.NewTemp()
-		//iguala a heap pointer
-		v.Generator.AddAssign(newTemp, "H")
-		//recorremos string en ascii
-		byteArray := []byte(str)
-		for _, asc := range byteArray {
-			//se agrega ascii al heap
-			v.Generator.AddSetHeap("(int)H", strconv.Itoa(int(asc)))
-			//suma heap pointer
-			v.Generator.AddExpression("H", "H", "1", "+")
-		}
-		//caracteres de escape
-		v.Generator.AddSetHeap("(int)H", "-1")
+	//nuevo temporal
+	newTemp := v.Generator.NewTemp()
+	//iguala a heap pointer
+	v.Generator.AddAssign(newTemp, "H")
+	//recorremos string en ascii
+	byteArray := []byte(str)
+	for _, asc := range byteArray {
+		//se agrega ascii al heap
+		v.Generator.AddSetHeap("(int)H", strconv.Itoa(int(asc)))
+		//suma heap pointer
 		v.Generator.AddExpression("H", "H", "1", "+")
-		//v.Generator.AddBr()
-
-		return structures.Primitive{
-			Value:      newTemp,
-			DataType:   StringType,
-			IsTemporal: true,
-		}
 	}
+	//caracteres de escape
+	v.Generator.AddSetHeap("(int)H", "-1")
+	v.Generator.AddExpression("H", "H", "1", "+")
+
+	return structures.Primitive{
+		Value:      newTemp,
+		DataType:   StringType,
+		IsTemporal: true,
+	}
+
+}
+
+func (v *Visitor) VisitCharacterExpr(ctx *parser.CharacterExprContext) interface{} {
+	char := strings.Replace(ctx.GetText(), "'", "", -1) // get the char
+
+	// Get the ascii value of the char
+	charASCII := strconv.Itoa(int(char[0]))
+
+	return structures.Primitive{
+		Value:      charASCII,
+		DataType:   CharacterType, // Puedes definir el tipo de dato según tus necesidades
+		IsTemporal: false,
+	}
+
 }
 
 func (v *Visitor) VisitBooleanExpr(ctx *parser.BooleanExprContext) interface{} {
-	// Agrergar comentario
-	//v.Generator.AddComment("-----Bool Primitivo-----")
-
 	boolean := ctx.GetText()
 
 	if boolean == "true" {
@@ -149,7 +148,6 @@ func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
 			Column:  ctx.GetStart().GetColumn(),
 			Message: fmt.Sprint("Variable ", id, " no declarada."),
 		})
-
 		return nil
 	}
 }
