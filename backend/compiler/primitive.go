@@ -15,7 +15,7 @@ const (
 	StringType    = "String"
 	BooleanType   = "Bool"
 	CharacterType = "Character"
-	NilType       = "nil"
+	NilType       = "Nil"
 )
 
 // Visit a digit primitive
@@ -117,10 +117,8 @@ func (v *Visitor) VisitBooleanExpr(ctx *parser.BooleanExprContext) interface{} {
 }
 
 func (v *Visitor) VisitNilExpr(ctx *parser.NilExprContext) interface{} {
-	value := ctx.GetText() // get the nil
-
 	return structures.Primitive{
-		Value:      value,
+		Value:      "9999999827968.00",
 		DataType:   NilType,
 		IsTemporal: false,
 	}
@@ -134,8 +132,7 @@ func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
 	if symbol, ok := v.FindSymbol(id); ok {
 		newTemp := v.Generator.NewTemp()
 
-		v.Generator.AddGetStack(newTemp, symbol.Address)
-		//v.Generator.AddBr()
+		v.Generator.AddGetStack(newTemp, "(int)"+symbol.Address)
 
 		return structures.Primitive{
 			Value:      newTemp,

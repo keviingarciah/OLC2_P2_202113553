@@ -50,25 +50,26 @@ func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 			// Agregar comentario
 			v.Generator.AddComment("-------Print Bool-------")
 
+			v.Generator.PrintTrue()
+			v.Generator.PrintFalse()
+
 			// Validación para los booleanos
 			lvl1 := v.Generator.NewLabel()
 			lvl2 := v.Generator.NewLabel()
 
 			v.Generator.AddIf(expression.GetValue(), "1", "!=", lvl1)
-			v.Generator.AddPrintf("c", "116")
-			v.Generator.AddPrintf("c", "114")
-			v.Generator.AddPrintf("c", "117")
-			v.Generator.AddPrintf("c", "101")
+			v.Generator.AddCall("_print_true_")
 			v.Generator.AddGoto(lvl2)
 			v.Generator.AddLabel(lvl1)
 
-			v.Generator.AddPrintf("c", "102")
-			v.Generator.AddPrintf("c", "97")
-			v.Generator.AddPrintf("c", "108")
-			v.Generator.AddPrintf("c", "115")
-			v.Generator.AddPrintf("c", "101")
+			v.Generator.AddCall("_print_false_")
 			v.Generator.AddLabel(lvl2)
 
+			v.Generator.AddPrintf("c", "32")
+		} else if expression.GetDataType() == NilType {
+			v.Generator.PrintNil()
+
+			v.Generator.AddCall("_print_nil_")
 			v.Generator.AddPrintf("c", "32")
 		}
 	}

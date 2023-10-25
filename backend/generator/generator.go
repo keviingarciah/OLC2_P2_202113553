@@ -23,6 +23,9 @@ type Generator struct {
 
 	// Native Flags
 	PrintStringFlag   bool
+	PrintTrueFlag     bool
+	PrintFalseFlag    bool
+	PrintNilFlag      bool
 	ConcatStringFlag  bool
 	CompareStringFlag bool
 
@@ -44,6 +47,9 @@ func NewGenerator() Generator {
 		Label:    0,
 
 		PrintStringFlag:   true,
+		PrintTrueFlag:     true,
+		PrintFalseFlag:    true,
+		PrintNilFlag:      true,
 		ConcatStringFlag:  true,
 		CompareStringFlag: true,
 
@@ -252,7 +258,53 @@ func (g *Generator) PrintString() {
 		g.Natives = append(g.Natives, "\t"+newLvl1+":\n")
 		g.Natives = append(g.Natives, "\treturn;\n")
 		g.Natives = append(g.Natives, "}\n\n")
+
 		g.PrintStringFlag = false
+	}
+}
+
+func (g *Generator) PrintTrue() {
+	if g.PrintTrueFlag {
+		//se genera el print true
+		g.Natives = append(g.Natives, "void _print_true_() {\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 116);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 117);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 101);\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.PrintTrueFlag = false
+	}
+}
+
+func (g *Generator) PrintFalse() {
+	if g.PrintFalseFlag {
+		//se genera el print true
+		g.Natives = append(g.Natives, "void _print_false_() {\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 102);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 97);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 108);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 115);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 101);\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.PrintFalseFlag = false
+	}
+}
+
+func (g *Generator) PrintNil() {
+	if g.PrintNilFlag {
+		//se genera el print true
+		g.Natives = append(g.Natives, "void _print_nil_() {\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 110);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 105);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 108);\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.PrintNilFlag = false
 	}
 }
 
@@ -300,7 +352,7 @@ func (g *Generator) GenerateConcatString() {
 		g.Natives = append(g.Natives, "\tH = H + 1;\n")
 		g.Natives = append(g.Natives, "\t"+conca+"\n")
 		g.Natives = append(g.Natives, "\treturn;\n")
-		g.Natives = append(g.Natives, "\t}\n\n")
+		g.Natives = append(g.Natives, "}\n\n")
 
 		g.ConcatStringFlag = false
 	}
@@ -347,7 +399,7 @@ func (g *Generator) GenerateCompareString() {
 		g.Natives = append(g.Natives, "\tstack[(int)P] = 0;\n")
 		g.Natives = append(g.Natives, "\t"+newLabel0+":\n") //
 		g.Natives = append(g.Natives, "\treturn;\n")
-		g.Natives = append(g.Natives, "\t}\n\n")
+		g.Natives = append(g.Natives, "}\n\n")
 
 		g.CompareStringFlag = false
 	}

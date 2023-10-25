@@ -192,7 +192,7 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 			} else {
 				v.Generator.GenerateConcatString()
 
-				size := strconv.Itoa(0)
+				size := strconv.Itoa(1)
 
 				v.Generator.AddExpression(newTemp, "P", fmt.Sprintf("%v", size), "+")
 				v.Generator.AddExpression(newTemp, newTemp, "1", "+")
@@ -208,7 +208,6 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				v.Generator.AddGetStack(newTemp, "(int)P")
 				v.Generator.AddExpression("P", "P", fmt.Sprintf("%v", size), "-")
 			}
-
 			// Retornar el valor
 			dataType := leftValue.GetDataType()
 			resultValue := newTemp
