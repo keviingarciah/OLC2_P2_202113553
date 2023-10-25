@@ -27,9 +27,7 @@ npm run dev
 npm i monaco edit
 npm i react-bootstrap bootstrap axios
 npm i react-monaco-editor
-```
-```bash
-npm i d3
+npm i d3 d3-graphviz
 npm i graphviz react-graphviz
 npm i svg
 ```
