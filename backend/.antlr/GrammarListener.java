@@ -577,6 +577,18 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitRelationalOperationExpr(GrammarParser.RelationalOperationExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code CharacterExpr}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharacterExpr(GrammarParser.CharacterExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CharacterExpr}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharacterExpr(GrammarParser.CharacterExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code DigitExpr}
 	 * labeled alternative in {@link GrammarParser#expr}.
 	 * @param ctx the parse tree

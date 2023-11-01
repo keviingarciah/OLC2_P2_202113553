@@ -22,12 +22,14 @@ type Generator struct {
 	FuncCode  []interface{}
 
 	// Native Flags
-	PrintStringFlag   bool
-	PrintTrueFlag     bool
-	PrintFalseFlag    bool
-	PrintNilFlag      bool
-	ConcatStringFlag  bool
-	CompareStringFlag bool
+	PrintStringFlag    bool
+	PrintTrueFlag      bool
+	PrintFalseFlag     bool
+	PrintNilFlag       bool
+	PrintMathErrorFlag bool
+	ConcatStringFlag   bool
+	CompareStringFlag  bool
+	StringToFloatFlag  bool
 
 	// Transfers
 	BreakStack    []string
@@ -46,12 +48,14 @@ func NewGenerator() Generator {
 		Temporal: 0,
 		Label:    0,
 
-		PrintStringFlag:   true,
-		PrintTrueFlag:     true,
-		PrintFalseFlag:    true,
-		PrintNilFlag:      true,
-		ConcatStringFlag:  true,
-		CompareStringFlag: true,
+		PrintStringFlag:    true,
+		PrintTrueFlag:      true,
+		PrintFalseFlag:     true,
+		PrintNilFlag:       true,
+		PrintMathErrorFlag: true,
+		ConcatStringFlag:   true,
+		CompareStringFlag:  true,
+		StringToFloatFlag:  true,
 
 		MainCode: false,
 
@@ -305,6 +309,27 @@ func (g *Generator) PrintNil() {
 		g.Natives = append(g.Natives, "}\n\n")
 
 		g.PrintNilFlag = false
+	}
+}
+
+func (g *Generator) PrintMathError() {
+	if g.PrintMathErrorFlag {
+		//se genera el print math error
+		g.Natives = append(g.Natives, "void _print_math_error_() {\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 77);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 97);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 116);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 104);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 69);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 111);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 10);\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.PrintMathErrorFlag = false
 	}
 }
 

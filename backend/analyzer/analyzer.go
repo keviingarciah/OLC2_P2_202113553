@@ -61,7 +61,7 @@ func Analyzer() fiber.Handler {
 		for _, item := range visitor.Generator.GetFinalCode() {
 			output += item.(string)
 		}
-		//print(output)
+		print(output)
 
 		// Create the output
 		response := Response{

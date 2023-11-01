@@ -16,6 +16,7 @@ const (
 	BooleanType   = "Bool"
 	CharacterType = "Character"
 	NilType       = "Nil"
+	VectorType    = "vector"
 )
 
 // Visit a digit primitive
@@ -71,7 +72,6 @@ func (v *Visitor) VisitStringExpr(ctx *parser.StringExprContext) interface{} {
 		DataType:   StringType,
 		IsTemporal: true,
 	}
-
 }
 
 func (v *Visitor) VisitCharacterExpr(ctx *parser.CharacterExprContext) interface{} {
@@ -125,8 +125,6 @@ func (v *Visitor) VisitNilExpr(ctx *parser.NilExprContext) interface{} {
 }
 
 func (v *Visitor) VisitIdExpr(ctx *parser.IdExprContext) interface{} {
-	// Agrergar comentario
-	//v.Generator.AddComment("-----Id Primitivo-----")
 	id := ctx.GetText()
 
 	if symbol, ok := v.FindSymbol(id); ok {
