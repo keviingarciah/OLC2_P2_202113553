@@ -57,7 +57,7 @@ func NewGenerator() Generator {
 		CompareStringFlag:  true,
 		StringToFloatFlag:  true,
 
-		MainCode: false,
+		MainCode: true,
 
 		StackCounter: 0,
 	}
@@ -234,8 +234,9 @@ func (g *Generator) GenerateFinalCode() {
 	//****************** add main
 	g.FinalCode = append(g.FinalCode, "/*------MAIN------*/\n")
 	g.FinalCode = append(g.FinalCode, "int main() {\n")
-	//g.FinalCode = append(g.FinalCode, "\tP = 0; H = 0;\n\n")
+
 	for _, s := range g.Code {
+		print(s.(string))
 		g.FinalCode = append(g.FinalCode, "\t"+s.(string))
 	}
 	g.FinalCode = append(g.FinalCode, "\n\treturn 0;\n}\n")

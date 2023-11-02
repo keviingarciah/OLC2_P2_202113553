@@ -8,6 +8,8 @@ import (
 )
 
 func (v *Visitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
+	fmt.Println("ESTOY EN UN PRINT")
+
 	exprCount := len(ctx.AllExpr())
 	for i := 0; i < exprCount; i++ {
 		expression := v.Visit(ctx.Expr(i)).(structures.Primitive)

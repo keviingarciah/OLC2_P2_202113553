@@ -4,6 +4,7 @@ import (
 	"backend/generator"
 	"backend/parser"
 	"backend/structures"
+	"fmt"
 	"log"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -46,6 +47,7 @@ func NewVisitor() *Visitor {
 
 // Visit
 func (v *Visitor) Visit(tree antlr.ParseTree) interface{} {
+	fmt.Println("ESTOY visitando")
 	switch val := tree.(type) {
 	case *antlr.ErrorNodeImpl:
 		log.Fatal(val.GetText())

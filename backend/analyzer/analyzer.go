@@ -49,7 +49,6 @@ func Analyzer() fiber.Handler {
 
 		// Create the visitor
 		visitor := compiler.NewVisitor()
-		visitor.Generator.MainCode = true // set the main code flag to true
 		// Visit the tree
 		visitor.Visit(tree)
 
@@ -61,7 +60,6 @@ func Analyzer() fiber.Handler {
 		for _, item := range visitor.Generator.GetFinalCode() {
 			output += item.(string)
 		}
-		print(output)
 
 		// Create the output
 		response := Response{
