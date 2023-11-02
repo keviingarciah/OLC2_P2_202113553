@@ -10,25 +10,22 @@ func (v *Visitor) VisitIntEmbededExpr(ctx *parser.IntEmbededExprContext) interfa
 
 	if exprValue.GetDataType() == StringType {
 		// Agregar comentario
-		v.Generator.AddComment("-----Float Embebida-----")
-
-		// Setear temporales
-		inputTemp := v.Generator.NewTemp()
-		outputTemp := v.Generator.NewTemp()
-
-		v.Generator.StringToFloatInput = inputTemp
-		v.Generator.StringToFloatOut = outputTemp
+		v.Generator.AddComment("-----Int Embebida-----")
 
 		// Llamar la función
-		v.Generator.StringToFloat()
+		v.Generator.StringToNumber()
 
-		v.Generator.AddAssign(inputTemp, exprValue.GetValue())
+		newTemp := v.Generator.NewTemp()
 
-		v.Generator.AddCall("_string_to_float_")
+		v.Generator.AddAssign(v.Generator.StringToNumberInput, exprValue.GetValue())
+
+		v.Generator.AddCall("_string_to_number_")
+
+		v.Generator.AddAssign(newTemp, "(int)"+v.Generator.StringToNumberOut)
 
 		return structures.Primitive{
-			Value:      outputTemp,
-			DataType:   exprValue.GetDataType(),
+			Value:      newTemp,
+			DataType:   IntType,
 			IsTemporal: true,
 		}
 	} else {
@@ -44,24 +41,20 @@ func (v *Visitor) VisitIntEmbededExpr(ctx *parser.IntEmbededExprContext) interfa
 func (v *Visitor) VisitStringEmbededExpr(ctx *parser.StringEmbededExprContext) interface{} {
 	exprValue := v.Visit(ctx.Expr()).(structures.Primitive)
 
+	// Agregar comentario
+	v.Generator.AddComment("-----String Embebida-----")
+
 	if (exprValue.GetDataType() == FloatType) || (exprValue.GetDataType() == IntType) {
-		// Setear temporales
-		inputTemp := v.Generator.NewTemp()
-		outputTemp := v.Generator.NewTemp()
-
-		v.Generator.NumberToStringInput = inputTemp
-		v.Generator.NumberToStringOut = outputTemp
-
 		// Llamar la función
 		v.Generator.NumberToString()
 
-		v.Generator.AddAssign(inputTemp, exprValue.GetValue())
+		v.Generator.AddAssign(v.Generator.NumberToStringInput, exprValue.GetValue())
 
 		v.Generator.AddCall("_number_to_string_")
 
 		return structures.Primitive{
-			Value:      outputTemp,
-			DataType:   exprValue.GetDataType(),
+			Value:      v.Generator.NumberToStringOut,
+			DataType:   StringType,
 			IsTemporal: true,
 		}
 	} else if exprValue.GetDataType() == BooleanType {
@@ -122,23 +115,16 @@ func (v *Visitor) VisitFloatEmbededExpr(ctx *parser.FloatEmbededExprContext) int
 		// Agregar comentario
 		v.Generator.AddComment("-----Float Embebida-----")
 
-		// Setear temporales
-		inputTemp := v.Generator.NewTemp()
-		outputTemp := v.Generator.NewTemp()
-
-		v.Generator.StringToFloatInput = inputTemp
-		v.Generator.StringToFloatOut = outputTemp
-
 		// Llamar la función
-		v.Generator.StringToFloat()
+		v.Generator.StringToNumber()
 
-		v.Generator.AddAssign(inputTemp, exprValue.GetValue())
+		v.Generator.AddAssign(v.Generator.StringToNumberInput, exprValue.GetValue())
 
-		v.Generator.AddCall("_string_to_float_")
+		v.Generator.AddCall("_string_to_number_")
 
 		return structures.Primitive{
-			Value:      outputTemp,
-			DataType:   exprValue.GetDataType(),
+			Value:      v.Generator.StringToNumberOut,
+			DataType:   FloatType,
 			IsTemporal: true,
 		}
 	} else {
