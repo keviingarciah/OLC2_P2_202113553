@@ -113,7 +113,6 @@ func (v *Visitor) VisitIncrementVarAssignment(ctx *parser.IncrementVarAssignment
 					if env, found := v.FindSymbolEnvironment(varId); found {
 						env.Symbols[varId] = symbol
 					}
-
 				} else {
 					v.SemanticErrors = append(v.SemanticErrors, structures.SemanticError{
 						Line:    ctx.GetStart().GetLine(),

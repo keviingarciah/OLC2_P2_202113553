@@ -57,8 +57,8 @@ letDeclaration:
 
 // Vector
 vectorDeclaration: 
-	VAR ID COLON '[' type ']' '=' '[' (valuesVectorDeclaration)? ']'
-	| VAR ID COLON '[' type ']' '=' ID	
+	VAR ID COLON '[' type ']' '=' '[' (valuesVectorDeclaration)? ']' # VectorValuesDeclaration
+	| VAR ID COLON '[' type ']' '=' ID	# VectorIdDeclaration
 	;	
 
 valuesVectorDeclaration: 
@@ -80,7 +80,6 @@ vectorRemoveLast:
 vectorRemoveAt: 
 	ID '.remove' '(' 'at' ':' expr ')'
 	;
-
 
 // Matrix
 matrixDeclaration:

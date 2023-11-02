@@ -51,7 +51,11 @@ func (v *BaseGrammarVisitor) VisitValueLetDeclaration(ctx *ValueLetDeclarationCo
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseGrammarVisitor) VisitVectorDeclaration(ctx *VectorDeclarationContext) interface{} {
+func (v *BaseGrammarVisitor) VisitVectorValuesDeclaration(ctx *VectorValuesDeclarationContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseGrammarVisitor) VisitVectorIdDeclaration(ctx *VectorIdDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

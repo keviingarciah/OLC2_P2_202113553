@@ -1,0 +1,275 @@
+//vector con valores
+var vec1: [Int] = [10,20,30,40,50]
+
+//imprime 0
+print(vec1.count)
+
+//inserta 100 al final
+vec1.append(100) //[10,20,30,40,50,100]
+
+//elimina la primera posición
+vec1.remove( at: 0) //[20,30,40,50,100]
+
+//se realiza una copia completa de vector
+var copiaVec: [Int] = vec1
+
+->
+
+#include <stdio.h>
+float stack[10000];
+float heap[10000];
+float P;
+float H;
+float t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18;
+
+void __vector_append() {
+	t11 =  stack[ (int) t5];
+	stack[ (int) t5] =  H;
+	t12 =  heap[ (int) t11];
+	t12 =  t12 +  1;
+	heap[ (int) H] =  t12;
+	H =  H +  1;
+	t12 =  t12 -  1;
+	t14 =  0;
+	t11 =  t11 +  1;
+	L3:
+	if ((int) t12 == (int) t14) goto L4;
+	t13 =  heap[ (int) t11];
+	heap[ (int) H] =  t13;
+	H =  H +  1;
+	t11 =  t11 +  1;
+	t14 =  t14 +  1;
+	goto L3;
+	L4:
+	heap[ (int) H] =  t6;
+	H =  H +  1;
+return;
+}
+
+
+void __vector_remove() {
+	t15 =  stack[ (int) t8];
+	t16 =  heap[ (int) t15];
+	if ((int) t9 < (int) 0) goto L8;
+	if ((int) t9 >= (int) t16) goto L8;
+	stack[ (int) t8] =  H;
+	t16 =  t16 -  1;
+	heap[ (int) H] =  t16;
+	H =  H +  1;
+	t16 =  t16 +  1;
+	t18 =  0;
+	t15 =  t15 +  1;
+	L5:
+	if ((int) t16 == (int) t18) goto L6;
+	if ((int) t18 == (int) t9) goto L7;
+	t17 =  heap[ (int) t15];
+	heap[ (int) H] =  t17;
+	H =  H +  1;
+	L7:
+	t15 =  t15 +  1;
+	t18 =  t18 +  1;
+	goto L5;
+	L8:
+	printf("%c",  66);
+	printf("%c",  111);
+	printf("%c",  117);
+	printf("%c",  110);
+	printf("%c",  100);
+	printf("%c",  115);
+	printf("%c",  69);
+	printf("%c",  114);
+	printf("%c",  114);
+	printf("%c",  111);
+	printf("%c",  114);
+	printf("%c",  10);
+	L6:
+return;
+}
+
+int main() {
+	// Reserving variables
+	stack[ (int) P] =  0;
+	P =  P +  1;
+	stack[ (int) P] =  0;
+	P =  P +  1;
+	t1 =  H;
+	H =  H +  1;
+	heap[ (int) t1] =  5;
+	heap[ (int) H] =  10;
+	H =  H +  1;
+	heap[ (int) H] =  20;
+	H =  H +  1;
+	heap[ (int) H] =  30;
+	H =  H +  1;
+	heap[ (int) H] =  40;
+	H =  H +  1;
+	heap[ (int) H] =  50;
+	H =  H +  1;
+	stack[ (int) 0] =  t1;
+    
+	t2 =  stack[ (int) 0];
+	t2 =  heap[ (int) t2];
+	t3 =  t2;
+	if ( t3 ==  9999999827968.00) goto L1;
+	printf("%d", (int) t3);
+	goto L2;
+	L1:
+	printf("%c",  110);
+	printf("%c",  105);
+	printf("%c",  108);
+	L2:
+	printf("%c",  32);
+	printf("%c",  10);
+	t4 =  stack[ (int) 0];
+	t5 =  0;
+	t6 =  100;
+	__vector_append();
+	t7 =  stack[ (int) 0];
+	t8 =  0;
+	t9 =  0;
+	__vector_remove();
+	t10 =  stack[ (int) 0];
+	stack[ (int) 1] =  t10;
+return 0;
+}
+
+------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+#include <math.h>
+float heap[1000000];
+float stack[1000000];
+float SP;
+float HP;
+float t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27;
+
+/------NATIVES------/
+void _assignValueVector_(){
+	 t5 = stack[(int)t4]; 
+	 t6 = heap[(int)t5]; 
+	 if( t3 < 0 ) goto L0 ;
+	 if( t3 >= t6 ) goto L0 ;
+	 goto L1; 
+	 L0: 
+		_printBoundsError_();
+		goto L2 ;
+	 L1: 
+	 t7 = stack[(int)t4]; 
+	 t7 = t7 + t3; 
+	 t7 = t7 + 1; 
+	 heap[(int)t7] = t2; 
+	 L2: 
+	return;
+}
+
+void _printBoundsError_(){
+	printf("%c", 66);
+	printf("%c", 111);
+	printf("%c", 117);
+	printf("%c", 110);
+	printf("%c", 100);
+	printf("%c", 115);
+	printf("%c", 32);
+	printf("%c", 101);
+	printf("%c", 114);
+	printf("%c", 114);
+	printf("%c", 111);
+	printf("%c", 114);
+	printf("%c", 10);
+	return;
+}
+
+void _accessVector_(){
+	t13 = 0; 
+	t15 = 9999999827968; 
+	t13 = t12; 
+	t14 = heap[(int) t13];
+	if( t11 < 0) goto L3 ;
+	if( t11 >= t14) goto L3 ;
+	goto L4 ;
+	L3:
+		_printBoundsError_();
+		goto L5 ;
+	L4:
+		t13 = t13 + 1; 
+		t13 = t13 + t11; 
+		t15 = heap[(int) t13]; 
+	L5:
+	return;
+}
+
+void _appendVector_(){
+	t23 = stack[(int)t20]; 
+	t21 = heap[(int) t23]; 
+	t22 = t21 + 1; 
+	t24 = HP + 1; 
+	t23 = t23 + 1; 
+	t25 = t21; 
+	t27 = HP; 
+	 L6: 
+	if( t25 <= 0) goto L7 ;
+	t26 = heap[(int) t23]; 
+	heap[(int) t24] = t26; 
+	t23 = t23 + 1; 
+	t24 = t24 + 1; 
+	t25 = t25 - 1; 
+	goto L6; 
+	 L7: 
+	heap[(int) t24] = t19; 
+	heap[(int) t27] = t22; 
+	stack[(int) t20] = t27; 
+	HP = t24 + 1; 
+	return;
+}
+
+/------MAIN------/
+void main() {
+	SP = 0;
+	HP = 0;
+
+	//Vector Declaration
+	t0 = (int) HP;
+	heap[(int) HP] = 5;
+	HP = HP + 1;
+	heap[(int) HP] = 100;
+	HP = HP + 1;
+	heap[(int) HP] = 200;
+	HP = HP + 1;
+	heap[(int) HP] = 300;
+	HP = HP + 1;
+	heap[(int) HP] = 400;
+	HP = HP + 1;
+	heap[(int) HP] = 500;
+	HP = HP + 1;
+	t1 = 0;
+	stack[(int)t1] = t0;
+	
+	t8 = 0;
+	t2 = 350;
+	t3 = 3;
+	t4 = t8;
+	_assignValueVector_();
+	t10 = stack[0];
+	t11 = 2;
+	t12 = (int) t10;
+	_accessVector_();
+	t16 = t15;
+	//Variable Declaration
+	t17 = 1;
+	stack[(int)t17] = t16;
+	
+	t18 = 0;
+	t19 = 600;
+	t20 = (int) t18;
+	_appendVector_();
+
+	return;
+}
+
+
+------------------------------------------------------------------------------------------------------------------------
+// for que recorre una cadena
+for c in "hola" {
+print(c)
+}
+
+->

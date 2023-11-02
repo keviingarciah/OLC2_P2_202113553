@@ -22,10 +22,13 @@ type Generator struct {
 	FuncCode  []interface{}
 
 	// Native Flags
-	PrintStringFlag   bool
-	PrintTrueFlag     bool
-	PrintFalseFlag    bool
-	PrintNilFlag      bool
+	PrintStringFlag      bool
+	PrintTrueFlag        bool
+	PrintFalseFlag       bool
+	PrintNilFlag         bool
+	PrintMathErrorFlag   bool
+	PrintBoundsErrorFlag bool
+
 	ConcatStringFlag  bool
 	CompareStringFlag bool
 
@@ -46,10 +49,13 @@ func NewGenerator() Generator {
 		Temporal: 0,
 		Label:    0,
 
-		PrintStringFlag:   true,
-		PrintTrueFlag:     true,
-		PrintFalseFlag:    true,
-		PrintNilFlag:      true,
+		PrintStringFlag:      true,
+		PrintTrueFlag:        true,
+		PrintFalseFlag:       true,
+		PrintNilFlag:         true,
+		PrintMathErrorFlag:   true,
+		PrintBoundsErrorFlag: true,
+
 		ConcatStringFlag:  true,
 		CompareStringFlag: true,
 
@@ -305,6 +311,50 @@ func (g *Generator) PrintNil() {
 		g.Natives = append(g.Natives, "}\n\n")
 
 		g.PrintNilFlag = false
+	}
+}
+
+func (g *Generator) PrintMathError() {
+	if g.PrintMathErrorFlag {
+		//se genera el print math error
+		g.Natives = append(g.Natives, "void _math_error_() {\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 77);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 97);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 116);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 104);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 69);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 111);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 10);\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.PrintMathErrorFlag = false
+	}
+}
+
+func (g *Generator) PrintBoundsError() {
+	if g.PrintBoundsErrorFlag {
+		//se genera el print math error
+		g.Natives = append(g.Natives, "void _bounds_error_() {\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 66);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 111);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 117);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 110);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 100);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 115);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 69);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 111);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
+		g.Natives = append(g.Natives, "\tprintf(\"%c\", 10);\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.PrintBoundsErrorFlag = false
 	}
 }
 

@@ -976,6 +976,18 @@ public class GrammarParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class VectorDeclarationContext extends ParserRuleContext {
+		public VectorDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_vectorDeclaration; }
+	 
+		public VectorDeclarationContext() { }
+		public void copyFrom(VectorDeclarationContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class VectorIdDeclarationContext extends VectorDeclarationContext {
 		public TerminalNode VAR() { return getToken(GrammarParser.VAR, 0); }
 		public List<TerminalNode> ID() { return getTokens(GrammarParser.ID); }
 		public TerminalNode ID(int i) {
@@ -986,13 +998,21 @@ public class GrammarParser extends Parser {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode EQUAL() { return getToken(GrammarParser.EQUAL, 0); }
+		public VectorIdDeclarationContext(VectorDeclarationContext ctx) { copyFrom(ctx); }
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class VectorValuesDeclarationContext extends VectorDeclarationContext {
+		public TerminalNode VAR() { return getToken(GrammarParser.VAR, 0); }
+		public TerminalNode ID() { return getToken(GrammarParser.ID, 0); }
+		public TerminalNode COLON() { return getToken(GrammarParser.COLON, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode EQUAL() { return getToken(GrammarParser.EQUAL, 0); }
 		public ValuesVectorDeclarationContext valuesVectorDeclaration() {
 			return getRuleContext(ValuesVectorDeclarationContext.class,0);
 		}
-		public VectorDeclarationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_vectorDeclaration; }
+		public VectorValuesDeclarationContext(VectorDeclarationContext ctx) { copyFrom(ctx); }
 	}
 
 	public final VectorDeclarationContext vectorDeclaration() throws RecognitionException {
@@ -1004,6 +1024,7 @@ public class GrammarParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 			case 1:
+				_localctx = new VectorValuesDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(223);
@@ -1037,6 +1058,7 @@ public class GrammarParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new VectorIdDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(236);

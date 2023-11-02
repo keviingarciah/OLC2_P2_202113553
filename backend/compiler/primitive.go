@@ -85,7 +85,6 @@ func (v *Visitor) VisitCharacterExpr(ctx *parser.CharacterExprContext) interface
 		DataType:   CharacterType, // Puedes definir el tipo de dato según tus necesidades
 		IsTemporal: false,
 	}
-
 }
 
 func (v *Visitor) VisitBooleanExpr(ctx *parser.BooleanExprContext) interface{} {

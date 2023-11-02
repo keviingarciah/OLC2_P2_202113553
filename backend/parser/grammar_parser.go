@@ -2802,16 +2802,6 @@ type IVectorDeclarationContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
-	// Getter signatures
-	VAR() antlr.TerminalNode
-	AllID() []antlr.TerminalNode
-	ID(i int) antlr.TerminalNode
-	COLON() antlr.TerminalNode
-	Type_() ITypeContext
-	EQUAL() antlr.TerminalNode
-	ValuesVectorDeclaration() IValuesVectorDeclarationContext
-
 	// IsVectorDeclarationContext differentiates from other interfaces.
 	IsVectorDeclarationContext()
 }
@@ -2848,23 +2838,53 @@ func NewVectorDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleCon
 
 func (s *VectorDeclarationContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *VectorDeclarationContext) VAR() antlr.TerminalNode {
+func (s *VectorDeclarationContext) CopyAll(ctx *VectorDeclarationContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
+}
+
+func (s *VectorDeclarationContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *VectorDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+type VectorIdDeclarationContext struct {
+	VectorDeclarationContext
+}
+
+func NewVectorIdDeclarationContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *VectorIdDeclarationContext {
+	var p = new(VectorIdDeclarationContext)
+
+	InitEmptyVectorDeclarationContext(&p.VectorDeclarationContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*VectorDeclarationContext))
+
+	return p
+}
+
+func (s *VectorIdDeclarationContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *VectorIdDeclarationContext) VAR() antlr.TerminalNode {
 	return s.GetToken(GrammarParserVAR, 0)
 }
 
-func (s *VectorDeclarationContext) AllID() []antlr.TerminalNode {
+func (s *VectorIdDeclarationContext) AllID() []antlr.TerminalNode {
 	return s.GetTokens(GrammarParserID)
 }
 
-func (s *VectorDeclarationContext) ID(i int) antlr.TerminalNode {
+func (s *VectorIdDeclarationContext) ID(i int) antlr.TerminalNode {
 	return s.GetToken(GrammarParserID, i)
 }
 
-func (s *VectorDeclarationContext) COLON() antlr.TerminalNode {
+func (s *VectorIdDeclarationContext) COLON() antlr.TerminalNode {
 	return s.GetToken(GrammarParserCOLON, 0)
 }
 
-func (s *VectorDeclarationContext) Type_() ITypeContext {
+func (s *VectorIdDeclarationContext) Type_() ITypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ITypeContext); ok {
@@ -2880,11 +2900,71 @@ func (s *VectorDeclarationContext) Type_() ITypeContext {
 	return t.(ITypeContext)
 }
 
-func (s *VectorDeclarationContext) EQUAL() antlr.TerminalNode {
+func (s *VectorIdDeclarationContext) EQUAL() antlr.TerminalNode {
 	return s.GetToken(GrammarParserEQUAL, 0)
 }
 
-func (s *VectorDeclarationContext) ValuesVectorDeclaration() IValuesVectorDeclarationContext {
+func (s *VectorIdDeclarationContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case GrammarVisitor:
+		return t.VisitVectorIdDeclaration(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type VectorValuesDeclarationContext struct {
+	VectorDeclarationContext
+}
+
+func NewVectorValuesDeclarationContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *VectorValuesDeclarationContext {
+	var p = new(VectorValuesDeclarationContext)
+
+	InitEmptyVectorDeclarationContext(&p.VectorDeclarationContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*VectorDeclarationContext))
+
+	return p
+}
+
+func (s *VectorValuesDeclarationContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *VectorValuesDeclarationContext) VAR() antlr.TerminalNode {
+	return s.GetToken(GrammarParserVAR, 0)
+}
+
+func (s *VectorValuesDeclarationContext) ID() antlr.TerminalNode {
+	return s.GetToken(GrammarParserID, 0)
+}
+
+func (s *VectorValuesDeclarationContext) COLON() antlr.TerminalNode {
+	return s.GetToken(GrammarParserCOLON, 0)
+}
+
+func (s *VectorValuesDeclarationContext) Type_() ITypeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ITypeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ITypeContext)
+}
+
+func (s *VectorValuesDeclarationContext) EQUAL() antlr.TerminalNode {
+	return s.GetToken(GrammarParserEQUAL, 0)
+}
+
+func (s *VectorValuesDeclarationContext) ValuesVectorDeclaration() IValuesVectorDeclarationContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IValuesVectorDeclarationContext); ok {
@@ -2900,18 +2980,10 @@ func (s *VectorDeclarationContext) ValuesVectorDeclaration() IValuesVectorDeclar
 	return t.(IValuesVectorDeclarationContext)
 }
 
-func (s *VectorDeclarationContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *VectorDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *VectorDeclarationContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *VectorValuesDeclarationContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case GrammarVisitor:
-		return t.VisitVectorDeclaration(s)
+		return t.VisitVectorValuesDeclaration(s)
 
 	default:
 		return t.VisitChildren(s)
@@ -2931,6 +3003,7 @@ func (p *GrammarParser) VectorDeclaration() (localctx IVectorDeclarationContext)
 
 	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 27, p.GetParserRuleContext()) {
 	case 1:
+		localctx = NewVectorValuesDeclarationContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(223)
@@ -3016,6 +3089,7 @@ func (p *GrammarParser) VectorDeclaration() (localctx IVectorDeclarationContext)
 		}
 
 	case 2:
+		localctx = NewVectorIdDeclarationContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
 			p.SetState(236)

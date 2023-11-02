@@ -40,8 +40,11 @@ type GrammarVisitor interface {
 	// Visit a parse tree produced by GrammarParser#ValueLetDeclaration.
 	VisitValueLetDeclaration(ctx *ValueLetDeclarationContext) interface{}
 
-	// Visit a parse tree produced by GrammarParser#vectorDeclaration.
-	VisitVectorDeclaration(ctx *VectorDeclarationContext) interface{}
+	// Visit a parse tree produced by GrammarParser#VectorValuesDeclaration.
+	VisitVectorValuesDeclaration(ctx *VectorValuesDeclarationContext) interface{}
+
+	// Visit a parse tree produced by GrammarParser#VectorIdDeclaration.
+	VisitVectorIdDeclaration(ctx *VectorIdDeclarationContext) interface{}
 
 	// Visit a parse tree produced by GrammarParser#valuesVectorDeclaration.
 	VisitValuesVectorDeclaration(ctx *ValuesVectorDeclarationContext) interface{}
