@@ -423,7 +423,7 @@ function App() {
             <div className='containerE'>
               <div className="editor1 mx-3">
                 <MonacoEditor
-                  width="700"
+                  width="900"
                   height="600"
                   language='swift'
                   theme="vs-dark"
@@ -434,7 +434,7 @@ function App() {
               </div>
               <div className="editor2">
                 <MonacoEditor
-                  width="800"
+                  width="600"
                   height="600"
                   language="swift"
                   theme="vs-dark"
