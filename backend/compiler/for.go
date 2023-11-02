@@ -33,12 +33,6 @@ func (v *Visitor) VisitForStmt(ctx *parser.ForStmtContext) interface{} {
 		start = v.Visit(ctx.Range_().Expr(0)).(structures.Primitive)
 		end = v.Visit(ctx.Range_().Expr(1)).(structures.Primitive)
 
-		/*
-			// Convert to int
-			startInt, _ := strconv.Atoi(start.GetValue())
-			endInt, _ := strconv.Atoi(end.GetValue())
-		*/
-
 		// Save symbol address
 		address := strconv.Itoa(v.Generator.StackCounter)
 

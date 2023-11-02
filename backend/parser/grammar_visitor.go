@@ -73,11 +73,14 @@ type GrammarVisitor interface {
 	// Visit a parse tree produced by GrammarParser#structAttributes.
 	VisitStructAttributes(ctx *StructAttributesContext) interface{}
 
+	// Visit a parse tree produced by GrammarParser#structInstance.
+	VisitStructInstance(ctx *StructInstanceContext) interface{}
+
+	// Visit a parse tree produced by GrammarParser#attributesCall.
+	VisitAttributesCall(ctx *AttributesCallContext) interface{}
+
 	// Visit a parse tree produced by GrammarParser#structAccess.
 	VisitStructAccess(ctx *StructAccessContext) interface{}
-
-	// Visit a parse tree produced by GrammarParser#structAssignment.
-	VisitStructAssignment(ctx *StructAssignmentContext) interface{}
 
 	// Visit a parse tree produced by GrammarParser#funcDeclaration.
 	VisitFuncDeclaration(ctx *FuncDeclarationContext) interface{}
@@ -139,6 +142,9 @@ type GrammarVisitor interface {
 	// Visit a parse tree produced by GrammarParser#NilExpr.
 	VisitNilExpr(ctx *NilExprContext) interface{}
 
+	// Visit a parse tree produced by GrammarParser#StructAccessExpr.
+	VisitStructAccessExpr(ctx *StructAccessExprContext) interface{}
+
 	// Visit a parse tree produced by GrammarParser#IdExpr.
 	VisitIdExpr(ctx *IdExprContext) interface{}
 
@@ -147,6 +153,9 @@ type GrammarVisitor interface {
 
 	// Visit a parse tree produced by GrammarParser#LogicalOperationExpr.
 	VisitLogicalOperationExpr(ctx *LogicalOperationExprContext) interface{}
+
+	// Visit a parse tree produced by GrammarParser#StructInstanceExpr.
+	VisitStructInstanceExpr(ctx *StructInstanceExprContext) interface{}
 
 	// Visit a parse tree produced by GrammarParser#FloatEmbededExpr.
 	VisitFloatEmbededExpr(ctx *FloatEmbededExprContext) interface{}
@@ -183,9 +192,6 @@ type GrammarVisitor interface {
 
 	// Visit a parse tree produced by GrammarParser#BooleanExpr.
 	VisitBooleanExpr(ctx *BooleanExprContext) interface{}
-
-	// Visit a parse tree produced by GrammarParser#FuncCallExpr.
-	VisitFuncCallExpr(ctx *FuncCallExprContext) interface{}
 
 	// Visit a parse tree produced by GrammarParser#type.
 	VisitType(ctx *TypeContext) interface{}

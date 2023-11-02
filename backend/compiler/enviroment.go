@@ -5,8 +5,10 @@ import (
 	"strconv"
 )
 
+// Environment
 type Environment struct {
 	Symbols map[string]structures.Symbol
+	Structs map[string]structures.Struct
 	Parent  *Environment
 	Name    string
 }
@@ -81,3 +83,42 @@ func (v *Visitor) SaveSymbol(line int, column int, symbolType string, symbolId s
 		Address:    strconv.Itoa(address),
 	}
 }
+
+// Find Struct Environment
+func (v *Visitor) FindStruct(name string) (structures.Struct, bool) {
+	env := v.currentEnv
+	for env != nil {
+		if strct, ok := env.Structs[name]; ok {
+			return strct, true
+		}
+		env = env.Parent
+	}
+	return structures.Struct{}, false
+}
+
+// Find Environment for Struct
+func (v *Visitor) FindStructEnvironment(name string) (*Environment, bool) {
+	env := v.currentEnv.Parent // Comenzamos desde el entorno padre del entorno actual
+	for env != nil {
+		if _, ok := env.Structs[name]; ok {
+			return env, true
+		}
+		env = env.Parent
+	}
+	return nil, false
+}
+
+// Save Struct
+func (v *Visitor) SaveStruct(name string, strct structures.Struct) {
+	v.currentEnv.Structs[name] = strct
+}
+
+/*
+// Save StructAttribute
+func (v *Visitor) SaveStructAttribute(structName string, attributeName string, attribute structures.StructAttribute) {
+	if strct, ok := v.FindStruct(structName); ok {
+		strct.Atributes[attributeName] = attribute
+		v.SaveStruct(structName, strct)
+	}
+}
+*/

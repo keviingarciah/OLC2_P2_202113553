@@ -34,6 +34,7 @@ func NewVisitor() *Visitor {
 
 	globalEnv := &Environment{
 		Symbols: make(map[string]structures.Symbol),
+		Structs: make(map[string]structures.Struct),
 		Parent:  nil,
 		Name:    environmentName,
 	}
@@ -126,6 +127,15 @@ func (v *Visitor) VisitStmts(ctx *parser.StmtsContext) interface{} {
 
 	} else if ctx.ReturnStmt() != nil {
 		return v.Visit(ctx.ReturnStmt())
+
+	} else if ctx.StructDeclaration() != nil {
+		return v.Visit(ctx.StructDeclaration())
+
+	} else if ctx.StructInstance() != nil {
+		return v.Visit(ctx.StructInstance())
+
+	} else if ctx.StructAccess() != nil {
+		return v.Visit(ctx.StructAccess())
 	}
 	return nil
 }

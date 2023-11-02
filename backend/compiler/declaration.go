@@ -70,7 +70,6 @@ func (v *Visitor) VisitValueVarDeclaration(ctx *parser.ValueVarDeclarationContex
 
 	// get the primitive value
 	primitive := v.Visit(ctx.Expr()).(structures.Primitive)
-	//size := strconv.Itoa(0)
 
 	// Agregar comentario
 	v.Generator.AddComment("-------Declaracion de Variable-------")

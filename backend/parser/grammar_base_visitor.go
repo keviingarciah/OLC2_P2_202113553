@@ -95,11 +95,15 @@ func (v *BaseGrammarVisitor) VisitStructAttributes(ctx *StructAttributesContext)
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseGrammarVisitor) VisitStructAccess(ctx *StructAccessContext) interface{} {
+func (v *BaseGrammarVisitor) VisitStructInstance(ctx *StructInstanceContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseGrammarVisitor) VisitStructAssignment(ctx *StructAssignmentContext) interface{} {
+func (v *BaseGrammarVisitor) VisitAttributesCall(ctx *AttributesCallContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseGrammarVisitor) VisitStructAccess(ctx *StructAccessContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -183,6 +187,10 @@ func (v *BaseGrammarVisitor) VisitNilExpr(ctx *NilExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseGrammarVisitor) VisitStructAccessExpr(ctx *StructAccessExprContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseGrammarVisitor) VisitIdExpr(ctx *IdExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -192,6 +200,10 @@ func (v *BaseGrammarVisitor) VisitIsEmptyExpr(ctx *IsEmptyExprContext) interface
 }
 
 func (v *BaseGrammarVisitor) VisitLogicalOperationExpr(ctx *LogicalOperationExprContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseGrammarVisitor) VisitStructInstanceExpr(ctx *StructInstanceExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -240,10 +252,6 @@ func (v *BaseGrammarVisitor) VisitUnaryOperationExpr(ctx *UnaryOperationExprCont
 }
 
 func (v *BaseGrammarVisitor) VisitBooleanExpr(ctx *BooleanExprContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseGrammarVisitor) VisitFuncCallExpr(ctx *FuncCallExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

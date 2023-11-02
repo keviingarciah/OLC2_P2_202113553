@@ -12,7 +12,6 @@ block:
 stmts:
 	varDeclaration (SEMICOLON)?
 	| varAssignment (SEMICOLON)?
-
 	| letDeclaration (SEMICOLON)?
 
 	| vectorDeclaration (SEMICOLON)?
@@ -22,15 +21,21 @@ stmts:
 
 	| funcDeclaration (SEMICOLON)?
 	| funcCall (SEMICOLON)?
+
 	| printStmt (SEMICOLON)?
 	| ifStmt (SEMICOLON)?
 	| switchStmt (SEMICOLON)?
 	| whileStmt (SEMICOLON)?
 	| forStmt (SEMICOLON)?
 	| guardStmt (SEMICOLON)?
+
 	| breakStmt (SEMICOLON)?
 	| continueStmt (SEMICOLON)?
 	| returnStmt (SEMICOLON)?
+
+	| structDeclaration (SEMICOLON)?
+	| structInstance (SEMICOLON)?	
+	| structAccess (SEMICOLON)?
     ;
 
 
@@ -101,13 +106,17 @@ structAttributes:
 	(VAR|LET) ID ':' type
 	;
 
-structAccess: ID ('.' ID)+
+structInstance: 
+	ID '(' (attributesCall)? ')'
+	;	
+
+attributesCall: 
+	ID ':' expr (',' attributesCall)?
 	;
 
-structAssignment
-    : ID '.' ID '=' expr
-	;
-
+structAccess: 
+	ID '.' ID
+	;	
 
 // Functions
 funcDeclaration: 
@@ -219,12 +228,14 @@ expr:
 	| NIL					# NilExpr
 	| DIGIT					# DigitExpr
 	| STR					# StringExpr
-	| CHAR 					# CharacterExpr	
-	| funcCall              # FuncCallExpr
+	| CHAR 					# CharacterExpr		
 	// Vector
 	| ID '.count'			# CountExpr
 	| ID '.isEmpty'			# IsEmptyExpr
 	| ID '[' expr ']'		# VectorAccessExpr
+	// Struct
+	| structInstance 	  	# StructInstanceExpr	
+	| structAccess 			# StructAccessExpr
 	// ID
 	| ID					# IdExpr
 	// Embeded
