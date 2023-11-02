@@ -72,7 +72,7 @@ func NewGenerator() Generator {
 		NumberToStringFlag: true,
 		StringToFloatFlag:  true,
 
-		MainCode: false,
+		MainCode: true,
 
 		StackCounter: 0,
 	}
@@ -112,7 +112,7 @@ func (g *Generator) AddLabel(Label string) {
 	if g.MainCode {
 		g.Code = append(g.Code, Label+":\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, Label+":\n")
+		g.FuncCode = append(g.FuncCode, "\t"+Label+":\n")
 	}
 }
 
@@ -120,7 +120,7 @@ func (g *Generator) AddIf(left string, right string, operator string, Label stri
 	if g.MainCode {
 		g.Code = append(g.Code, "if("+left+" "+operator+" "+right+") goto "+Label+";\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, "if("+left+" "+operator+" "+right+") goto "+Label+";\n")
+		g.FuncCode = append(g.FuncCode, "\t"+"if("+left+" "+operator+" "+right+") goto "+Label+";\n")
 	}
 }
 
@@ -128,7 +128,7 @@ func (g *Generator) AddGoto(Label string) {
 	if g.MainCode {
 		g.Code = append(g.Code, "goto "+Label+";\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, "goto "+Label+";\n")
+		g.FuncCode = append(g.FuncCode, "\t"+"goto "+Label+";\n")
 	}
 }
 
@@ -136,7 +136,7 @@ func (g *Generator) AddExpression(target string, left string, right string, oper
 	if g.MainCode {
 		g.Code = append(g.Code, target+" = "+left+" "+operator+" "+right+";\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, target+" = "+left+" "+operator+" "+right+";\n")
+		g.FuncCode = append(g.FuncCode, "\t"+target+" = "+left+" "+operator+" "+right+";\n")
 	}
 }
 
@@ -144,7 +144,7 @@ func (g *Generator) AddAssign(target, val string) {
 	if g.MainCode {
 		g.Code = append(g.Code, target+" = "+val+";\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, target+" = "+val+";\n")
+		g.FuncCode = append(g.FuncCode, "\t"+target+" = "+val+";\n")
 	}
 }
 
@@ -152,7 +152,7 @@ func (g *Generator) AddPrintf(typePrint string, value string) {
 	if g.MainCode {
 		g.Code = append(g.Code, "printf(\"%"+typePrint+"\", "+value+");\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, "printf(\"%"+typePrint+"\", "+value+");\n")
+		g.FuncCode = append(g.FuncCode, "\t"+"printf(\"%"+typePrint+"\", "+value+");\n")
 	}
 }
 
@@ -160,7 +160,7 @@ func (g *Generator) AddSetHeap(index string, value string) {
 	if g.MainCode {
 		g.Code = append(g.Code, "heap["+index+"] = "+value+";\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, "heap["+index+"] = "+value+";\n")
+		g.FuncCode = append(g.FuncCode, "\t"+"heap["+index+"] = "+value+";\n")
 	}
 }
 
@@ -168,7 +168,7 @@ func (g *Generator) AddGetHeap(target string, index string) {
 	if g.MainCode {
 		g.Code = append(g.Code, target+" = heap["+index+"];\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, target+" = heap["+index+"];\n")
+		g.FuncCode = append(g.FuncCode, "\t"+target+" = heap["+index+"];\n")
 	}
 }
 
@@ -176,7 +176,7 @@ func (g *Generator) AddSetStack(index string, value string) {
 	if g.MainCode {
 		g.Code = append(g.Code, "stack["+index+"] = "+value+";\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, "stack["+index+"] = "+value+";\n")
+		g.FuncCode = append(g.FuncCode, "\t"+"stack["+index+"] = "+value+";\n")
 	}
 }
 
@@ -184,7 +184,7 @@ func (g *Generator) AddGetStack(target string, index string) {
 	if g.MainCode {
 		g.Code = append(g.Code, target+" = stack["+index+"];\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, target+" = stack["+index+"];\n")
+		g.FuncCode = append(g.FuncCode, "\t"+target+" = stack["+index+"];\n")
 	}
 }
 
@@ -192,7 +192,7 @@ func (g *Generator) AddCall(target string) {
 	if g.MainCode {
 		g.Code = append(g.Code, target+"();\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, target+"();\n")
+		g.FuncCode = append(g.FuncCode, "\t"+target+"();\n")
 	}
 }
 
@@ -208,7 +208,7 @@ func (g *Generator) AddComment(target string) {
 	if g.MainCode {
 		g.Code = append(g.Code, "//"+target+"\n")
 	} else {
-		g.FuncCode = append(g.FuncCode, "//"+target+"\n")
+		g.FuncCode = append(g.FuncCode, "\t"+"//"+target+"\n")
 	}
 }
 
@@ -238,12 +238,12 @@ func (g *Generator) GenerateFinalCode() {
 	}
 	//****************** add natives functions
 	if len(g.Natives) > 0 {
-		g.FinalCode = append(g.FinalCode, "/*------NATIVES------*/\n")
+		g.FinalCode = append(g.FinalCode, "/*------NATIVAS------*/\n")
 		g.FinalCode = append(g.FinalCode, g.Natives...)
 	}
 	//****************** add functions
 	if len(g.FuncCode) > 0 {
-		g.FinalCode = append(g.FinalCode, "/*------FUNCTIONS------*/\n")
+		g.FinalCode = append(g.FinalCode, "/*------FUNCIONES------*/\n")
 		g.FinalCode = append(g.FinalCode, g.FuncCode...)
 	}
 	//****************** add main

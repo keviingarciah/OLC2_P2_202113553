@@ -93,19 +93,20 @@ valuesMatrixDeclaration:
 
 
 // Structs
-structDeclaration: 'struct' ID '{' (structAttribute | funcDeclaration)* '}'
-;
+structDeclaration: 
+	'struct' ID '{' (structAttributes)* '}'
+	;
 
-structAttribute
-    : (VAR|LET) ID (':' type)? ('=' expr)? (';')?
-;
+structAttributes: 
+	(VAR|LET) ID ':' type
+	;
 
 structAccess: ID ('.' ID)+
-;
+	;
 
 structAssignment
     : ID '.' ID '=' expr
-;
+	;
 
 
 // Functions
@@ -234,5 +235,5 @@ expr:
 
 
 // Types
-type: (INT | FLOAT | STRING | BOOL | CHARACTER)
+type: (INT | FLOAT | STRING | BOOL | CHARACTER| ID)
     ;

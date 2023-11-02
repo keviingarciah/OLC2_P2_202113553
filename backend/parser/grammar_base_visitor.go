@@ -91,7 +91,7 @@ func (v *BaseGrammarVisitor) VisitStructDeclaration(ctx *StructDeclarationContex
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseGrammarVisitor) VisitStructAttribute(ctx *StructAttributeContext) interface{} {
+func (v *BaseGrammarVisitor) VisitStructAttributes(ctx *StructAttributesContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
