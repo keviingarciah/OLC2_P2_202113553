@@ -3,6 +3,7 @@ package analyzer
 import (
 	"backend/compiler"
 	"backend/parser"
+	"fmt"
 
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/gofiber/fiber/v2"
@@ -11,7 +12,6 @@ import (
 // ------------------ Response ------------------
 type Response struct {
 	Output      string
-	Cst         string
 	SymbolTable string
 	ErrorTable  string
 	Message     string
@@ -24,9 +24,6 @@ type Request struct {
 // ------------------ Analyzer ------------------
 func Analyzer() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		// Limpiar la consola
-		//compiler.ClearPrint()
-
 		// Aqui se obtiene del body el codigo
 		code := string(c.Body())
 
@@ -60,12 +57,38 @@ func Analyzer() fiber.Handler {
 		for _, item := range visitor.Generator.GetFinalCode() {
 			output += item.(string)
 		}
-		//print(output)
+
+		// Create the symbol table
+		ts := CreateTS(visitor.SymbolTable)
+
+		// Create the error table
+		et := CreateErrorsTable(errorListener.LexerErrors, errorListener.ParserErrors, visitor.SemanticErrors)
+
+		// Procesa los errores al output
+		if len(errorListener.LexerErrors) != 0 {
+			for _, err := range errorListener.LexerErrors {
+				output += fmt.Sprintf("Error léxico en línea %d, columna %d: %s\n", err.Line, err.Column, err.Message)
+			}
+		}
+		// Procesa los errores sintácticos
+		if len(errorListener.ParserErrors) != 0 {
+			for _, err := range errorListener.ParserErrors {
+				output += fmt.Sprintf("Error sintáctico en línea %d, columna %d: %s\n", err.Line, err.Column, err.Message)
+			}
+		}
+		// Procesa los errores semánticos
+		if len(visitor.SemanticErrors) != 0 {
+			for _, err := range visitor.SemanticErrors {
+				output += fmt.Sprintf("Error semántico en línea %d, columna %d: %s\n", err.Line, err.Column, err.Message)
+			}
+		}
 
 		// Create the output
 		response := Response{
-			Output:  output,
-			Message: "Compilado correctamente!",
+			Output:      output,
+			SymbolTable: ts,
+			ErrorTable:  et,
+			Message:     "Compilado correctamente!",
 		}
 		return c.Status(fiber.StatusOK).JSON(response)
 	}

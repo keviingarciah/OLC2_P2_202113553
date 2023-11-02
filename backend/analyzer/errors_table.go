@@ -1,13 +1,12 @@
-package reports
+package analyzer
 
 import (
-	"backend/analyzer"
 	"backend/structures"
 	"fmt"
 	"strings"
 )
 
-func CreateErrorsTable(lexical []analyzer.LexicalError, syntax []analyzer.SyntaxError, semantic []structures.SemanticError) string {
+func CreateErrorsTable(lexical []LexicalError, syntax []SyntaxError, semantic []structures.SemanticError) string {
 	// Contar el número de errores
 	var n = 0
 	// Crear el string de salida

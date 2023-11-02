@@ -147,59 +147,15 @@ function App() {
         // Establece setResult con el valor de response.data.output
         setResult(response.data.Output); 
         // Crear tabla de simbolos
-        //setSymbolTable(response.data.SymbolTable);
+        setSymbolTable(response.data.SymbolTable);
         // Crear tabla de errores
-        //setErrorTable(response.data.ErrorTable);
+        setErrorTable(response.data.ErrorTable);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  // -----------------CST-----------------
-  // CST Modal
-  const [showCST, setShowCST] = useState(false);
-
-  // Ocultar o Mostrar CST
-  const handleCSTClose = () => setShowCST(false);
-  const handleCShow = () => setShowCST(true);
-
-    // Analizar endpoint
-    function graphCST() {
-      handleCShow();  
-    }
-
-    const svgContainerRef = useRef(null);
-    useEffect(() => {
-      if (svgContainerRef.current) {
-        const svgContainer = d3.select(svgContainerRef.current);
-        const svg = svgContainer.select('svg');
-      
-        // Configura el comportamiento de zoom y drag
-        const zoom = d3.zoom().on('zoom', (event) => {
-          svg.attr('transform', event.transform);
-        });
-      
-        svg.call(zoom);
-      
-        // Centra el contenido SVG en el contenedor
-        const width = 1000; // Ancho deseado
-        const height = 300; // Alto deseado
-        const svgWidth = svg.attr('width');
-        const svgHeight = svg.attr('height');
-        const scaleX = width / svgWidth;
-        const scaleY = height / svgHeight;
-        const scale = Math.min(scaleX, scaleY);
-      
-        svgContainer.call(zoom.transform, d3.zoomIdentity.scale(scale));
-      
-        // Limpia el zoom cuando se cierra el modal
-        return () => {
-          svg.on('.zoom', null);
-        };
-      }
-    }, [cst]); // Asegúrate de que este efecto se ejecute cuando cst cambie
-    
   // -----------------Tabla de Simbolo-----------------
   const graphRefSTable = useRef(null);
 
@@ -264,9 +220,6 @@ function App() {
                 </NavDropdown>
 
                 <NavDropdown title="Reportes" id="navbarScrollingDropdown">
-                  <NavDropdown.Item onClick={graphCST}>
-                    Árbol CST
-                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={graphTableSymbol}>
                     Tabla de Símbolos
                   </NavDropdown.Item>
@@ -294,31 +247,6 @@ function App() {
         </Navbar>
 
       </header>
-
-      {/* Modal para el CST */}
-      <Modal
-        show={showCST}
-        onHide={handleCSTClose}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-        <Modal.Title>CST</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <div id="svg-container" ref={svgContainerRef}>
-          <svg width="1000" height="300">
-            <image xlinkHref={cst} width="100%" height="100%" />
-          </svg>
-        </div>     
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="dark" onClick={handleCSTClose}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
 
       {/* Modal para la Tabla de Símbolos */}
       <Modal
