@@ -32,6 +32,16 @@ type Generator struct {
 	ConcatStringFlag  bool
 	CompareStringFlag bool
 
+	NumberToStringFlag bool
+	StringToFloatFlag  bool
+
+	// Special
+	NumberToStringInput string
+	NumberToStringOut   string
+
+	StringToFloatInput string
+	StringToFloatOut   string
+
 	// Transfers
 	BreakStack    []string
 	ContinueStack []string
@@ -58,6 +68,9 @@ func NewGenerator() Generator {
 
 		ConcatStringFlag:  true,
 		CompareStringFlag: true,
+
+		NumberToStringFlag: true,
+		StringToFloatFlag:  true,
 
 		MainCode: false,
 
@@ -452,5 +465,155 @@ func (g *Generator) GenerateCompareString() {
 		g.Natives = append(g.Natives, "}\n\n")
 
 		g.CompareStringFlag = false
+	}
+}
+
+func (g *Generator) StringToFloat() {
+	if g.StringToFloatFlag {
+		newTemp1 := g.NewTemp()
+		newTemp2 := g.NewTemp()
+		newTemp3 := g.NewTemp()
+		newTemp4 := g.NewTemp()
+		newTemp5 := g.NewTemp()
+
+		intLabel := g.NewLabel()
+		vLabel1 := g.NewLabel()
+		vLabel2 := g.NewLabel()
+		cLabel1 := g.NewLabel()
+		continueLabel := g.NewLabel()
+		decimalLabel := g.NewLabel()
+		vLabel3 := g.NewLabel()
+		vLabel4 := g.NewLabel()
+		cLabel2 := g.NewLabel()
+		errorLabel := g.NewLabel()
+		rLabel := g.NewLabel()
+		endLabel := g.NewLabel()
+
+		g.Natives = append(g.Natives, "void _string_to_float_(){\n")
+		g.Natives = append(g.Natives, "\t"+newTemp1+" = heap[ (int) "+g.StringToFloatInput+" ];\n")
+		g.Natives = append(g.Natives, "\t"+newTemp2+" = 0;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp3+" = 0;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = 0;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp5+" = 1;\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatOut+" = 0;\n")
+		g.Natives = append(g.Natives, "\t"+intLabel+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" == -1) goto "+rLabel+";\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" == 46) goto "+continueLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+vLabel1+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" > 47) goto "+vLabel2+";\n")
+		g.Natives = append(g.Natives, "\tgoto "+errorLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+vLabel2+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" < 58) goto "+cLabel1+";\n")
+		g.Natives = append(g.Natives, "\tgoto "+errorLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+cLabel1+":\n")
+		g.Natives = append(g.Natives, "\t"+newTemp2+" = "+newTemp2+" * 10;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp3+" = "+newTemp1+" - 48;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp2+" = "+newTemp2+" + "+newTemp3+";\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatInput+" = "+g.StringToFloatInput+" + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp1+" = heap[ (int) "+g.StringToFloatInput+" ];\n")
+		g.Natives = append(g.Natives, "\tgoto "+intLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+continueLabel+":\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatInput+" = "+g.StringToFloatInput+" + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp1+" = heap[ (int) "+g.StringToFloatInput+" ];\n")
+		g.Natives = append(g.Natives, "\t"+decimalLabel+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" == -1) goto "+rLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+vLabel3+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" > 47) goto "+vLabel4+";\n")
+		g.Natives = append(g.Natives, "\tgoto "+errorLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+vLabel4+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" < 58) goto "+cLabel2+";\n")
+		g.Natives = append(g.Natives, "\tgoto "+errorLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+cLabel2+":\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = "+newTemp4+" * 10;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp3+" = "+newTemp1+" - 48;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = "+newTemp4+" + "+newTemp3+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp5+" = "+newTemp5+" * 10;\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatInput+" = "+g.StringToFloatInput+" + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp1+" = heap[ (int) "+g.StringToFloatInput+" ];\n")
+		g.Natives = append(g.Natives, "\tgoto "+decimalLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+errorLabel+":\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatOut+" = 9999999827968.00;\n")
+		g.Natives = append(g.Natives, "\tgoto "+endLabel+";\n")
+		g.Natives = append(g.Natives, "\t"+rLabel+":\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatOut+" = "+newTemp4+" / "+newTemp5+";\n")
+		g.Natives = append(g.Natives, "\t"+g.StringToFloatOut+" = "+g.StringToFloatOut+" + "+newTemp2+";\n")
+		g.Natives = append(g.Natives, "\t"+endLabel+":\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.StringToFloatFlag = false
+	}
+}
+
+func (g *Generator) NumberToString() {
+	if g.NumberToStringFlag {
+		newTemp1 := g.NewTemp()
+		newTemp2 := g.NewTemp()
+		newTemp4 := g.NewTemp()
+		newTemp5 := g.NewTemp()
+		newTemp6 := g.NewTemp()
+		newTemp7 := g.NewTemp()
+		newTemp8 := g.NewTemp()
+		newTemp9 := g.NewTemp()
+		newTemp10 := g.NewTemp()
+		newTemp11 := g.NewTemp()
+		newTemp12 := g.NewTemp()
+		newTemp13 := g.NewTemp()
+
+		newLabel1 := g.NewLabel()
+		newLabel2 := g.NewLabel()
+		newLabel3 := g.NewLabel()
+		newLabel4 := g.NewLabel()
+		newLabel5 := g.NewLabel()
+
+		g.Natives = append(g.Natives, "void _number_to_string_(){\n")
+		g.Natives = append(g.Natives, "\t"+newTemp1+" = (int)"+g.NumberToStringInput+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp2+" = "+g.NumberToStringInput+"-(float)"+newTemp1+";\n")
+		g.Natives = append(g.Natives, "\t"+g.NumberToStringOut+" = H;\n")
+		g.Natives = append(g.Natives, "\tH = H + 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = "+g.NumberToStringOut+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel1+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp1+" <= 0) goto "+newLabel2+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp5+" = (int)"+newTemp1+" % 10"+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp6+" = "+newTemp5+" + 48"+";\n")
+		g.Natives = append(g.Natives, "\t"+"heap[ (int) "+newTemp4+" ] = "+newTemp6+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp1+" = (int)"+newTemp1+" / 10"+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = "+newTemp4+" + 1"+";\n")
+		g.Natives = append(g.Natives, "\tgoto "+newLabel1+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel2+":\n")
+		g.Natives = append(g.Natives, "\t"+newTemp7+" = "+g.NumberToStringOut+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp8+" = "+newTemp4+" - 1"+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel3+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp7+" >= "+newTemp8+") goto "+newLabel3+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp9+" = heap[ (int) "+newTemp7+" ];\n")
+		g.Natives = append(g.Natives, "\t"+newTemp10+" = heap[ (int) "+newTemp8+" ];\n")
+		g.Natives = append(g.Natives, "\t"+"heap[ (int) "+newTemp7+" ] = "+newTemp10+";\n")
+		g.Natives = append(g.Natives, "\t"+"heap[ (int) "+newTemp8+" ] = "+newTemp9+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp7+" = "+newTemp7+" + 1"+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp8+" = "+newTemp8+" - 1"+";\n")
+		g.Natives = append(g.Natives, "\tgoto "+newLabel3+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel3+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp2+" == 0) goto "+newLabel5+";\n")
+		g.Natives = append(g.Natives, "\t"+"heap[ (int) "+newTemp4+" ] = 46"+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = "+newTemp4+" + 1"+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp10+" = 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp11+" = 6;\n")
+		g.Natives = append(g.Natives, "\t"+newLabel4+":\n")
+		g.Natives = append(g.Natives, "\tif("+newTemp11+" == 0)"+" goto "+newLabel5+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp2+" = "+newTemp2+" * 10 ;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp12+" = (int)"+newTemp2+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp13+" = "+newTemp12+" + 48;\n")
+		g.Natives = append(g.Natives, "\t"+"heap[ (int) "+newTemp4+" ] = "+newTemp13+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp2+" = "+newTemp2+" - (float)"+newTemp12+";\n")
+		g.Natives = append(g.Natives, "\t"+newTemp11+" = "+newTemp11+" - 1;\n")
+		g.Natives = append(g.Natives, "\t"+newTemp4+" = "+newTemp4+" + 1;\n")
+		g.Natives = append(g.Natives, "\tgoto "+newLabel4+";\n")
+		g.Natives = append(g.Natives, "\t"+newLabel5+":\n")
+		g.Natives = append(g.Natives, "\t"+"heap[ (int) "+newTemp4+" ] = -1;\n")
+		g.Natives = append(g.Natives, "\t"+"H"+" = "+newTemp4+" + 1;\n")
+		g.Natives = append(g.Natives, "\treturn;\n")
+		g.Natives = append(g.Natives, "}\n\n")
+
+		g.NumberToStringFlag = false
 	}
 }
