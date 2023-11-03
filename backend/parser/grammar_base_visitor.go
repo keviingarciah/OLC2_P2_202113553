@@ -107,6 +107,10 @@ func (v *BaseGrammarVisitor) VisitStructAccess(ctx *StructAccessContext) interfa
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseGrammarVisitor) VisitStructAssignment(ctx *StructAssignmentContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseGrammarVisitor) VisitFuncDeclaration(ctx *FuncDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }

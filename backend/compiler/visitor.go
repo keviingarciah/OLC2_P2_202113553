@@ -136,6 +136,10 @@ func (v *Visitor) VisitStmts(ctx *parser.StmtsContext) interface{} {
 
 	} else if ctx.StructAccess() != nil {
 		return v.Visit(ctx.StructAccess())
+
+	} else if ctx.StructAssignment() != nil {
+		return v.Visit(ctx.StructAssignment())
 	}
+
 	return nil
 }

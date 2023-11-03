@@ -170,3 +170,35 @@ func (v *Visitor) VisitStructAccess(ctx *parser.StructAccessContext) interface{}
 	}
 	return nil
 }
+
+func (v *Visitor) VisitStructAssignment(ctx *parser.StructAssignmentContext) interface{} {
+	// Get the struct
+	structID := ctx.ID(0).GetText()
+	attrID := ctx.ID(1).GetText()
+
+	expr := v.Visit(ctx.Expr()).(structures.Primitive)
+
+	// Get the attribute
+	if symbol, ok := v.FindSymbol(structID); ok {
+		// obtenemos el struct
+		structure := v.currentEnv.Structs[symbol.DataType]
+		structAttribute := structure.Attributes[attrID]
+
+		//* Obtenemos la posicion del primer struct en el heap
+		PS := v.Generator.NewTemp()
+		PH := v.Generator.NewTemp()
+		v.Generator.AddAssign(PS, fmt.Sprintf("%v", symbol.Address))
+		v.Generator.AddGetStack(PH, "(int) "+PS)
+
+		//* Obtenemos la posicion del atributo
+		attribute_index := structAttribute.Index
+
+		//* Obtenemos la posicion en un temporal
+		tPos := v.Generator.NewTemp()
+		v.Generator.AddExpression(tPos, PH, fmt.Sprintf("%v", attribute_index), "+")
+
+		// Asignamos el valor
+		v.Generator.AddSetHeap("(int) "+tPos, expr.GetValue())
+	}
+	return nil
+}

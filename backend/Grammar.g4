@@ -36,6 +36,7 @@ stmts:
 	| structDeclaration (SEMICOLON)?
 	| structInstance (SEMICOLON)?	
 	| structAccess (SEMICOLON)?
+	| structAssignment (SEMICOLON)?
     ;
 
 
@@ -116,6 +117,10 @@ attributesCall:
 
 structAccess: 
 	ID '.' ID
+	;	
+
+structAssignment: 
+	ID '.' ID EQUAL expr
 	;	
 
 // Functions

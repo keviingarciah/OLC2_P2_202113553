@@ -82,6 +82,9 @@ type GrammarVisitor interface {
 	// Visit a parse tree produced by GrammarParser#structAccess.
 	VisitStructAccess(ctx *StructAccessContext) interface{}
 
+	// Visit a parse tree produced by GrammarParser#structAssignment.
+	VisitStructAssignment(ctx *StructAssignmentContext) interface{}
+
 	// Visit a parse tree produced by GrammarParser#funcDeclaration.
 	VisitFuncDeclaration(ctx *FuncDeclarationContext) interface{}
 
