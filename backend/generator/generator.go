@@ -284,7 +284,6 @@ func (g *Generator) PrintString() {
 
 func (g *Generator) PrintTrue() {
 	if g.PrintTrueFlag {
-		//se genera el print true
 		g.Natives = append(g.Natives, "void _print_true_() {\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 116);\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 114);\n")
@@ -299,7 +298,6 @@ func (g *Generator) PrintTrue() {
 
 func (g *Generator) PrintFalse() {
 	if g.PrintFalseFlag {
-		//se genera el print true
 		g.Natives = append(g.Natives, "void _print_false_() {\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 102);\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 97);\n")
@@ -315,7 +313,6 @@ func (g *Generator) PrintFalse() {
 
 func (g *Generator) PrintNil() {
 	if g.PrintNilFlag {
-		//se genera el print true
 		g.Natives = append(g.Natives, "void _print_nil_() {\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 110);\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 105);\n")
@@ -329,7 +326,6 @@ func (g *Generator) PrintNil() {
 
 func (g *Generator) PrintMathError() {
 	if g.PrintMathErrorFlag {
-		//se genera el print math error
 		g.Natives = append(g.Natives, "void _math_error_() {\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 77);\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 97);\n")
@@ -350,7 +346,6 @@ func (g *Generator) PrintMathError() {
 
 func (g *Generator) PrintBoundsError() {
 	if g.PrintBoundsErrorFlag {
-		//se genera el print math error
 		g.Natives = append(g.Natives, "void _bounds_error_() {\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 66);\n")
 		g.Natives = append(g.Natives, "\tprintf(\"%c\", 111);\n")
@@ -375,24 +370,23 @@ func (g *Generator) GenerateConcatString() {
 	if g.ConcatStringFlag {
 		conca := ""
 		conca1 := ""
-		temp := g.NewTemp()    // t2
-		auxTemp := g.NewTemp() // t3
-		EV := g.NewLabel()     // L0
-		EF := g.NewLabel()     // L1
+		temp := g.NewTemp()
+		auxTemp := g.NewTemp()
+
+		EV := g.NewLabel()
+		EF := g.NewLabel()
 
 		g.Natives = append(g.Natives, "void _concat_string_() {\n")
-
-		g.Natives = append(g.Natives, "\t"+temp+" = H + 0;\n")    // t2
-		g.Natives = append(g.Natives, "\t"+auxTemp+" = P + 1;\n") // t3
-		conca += "stack[(int)P] = " + temp + ";\n"                // 26
-
-		temp = g.NewTemp()        // t4
-		newAuxTemp := g.NewTemp() // t5
+		g.Natives = append(g.Natives, "\t"+temp+" = H + 0;\n")
+		g.Natives = append(g.Natives, "\t"+auxTemp+" = P + 1;\n")
+		conca += "stack[(int)P] = " + temp + ";\n"
+		temp = g.NewTemp()
+		newAuxTemp := g.NewTemp()
 		g.Natives = append(g.Natives, "\t"+newAuxTemp+" = stack[(int) "+auxTemp+"];\n")
 		g.Natives = append(g.Natives, "\t"+temp+" = P + 2;\n")
-		conca1 += newAuxTemp + " = stack[(int)" + temp + "];\n" // 15
-		g.Natives = append(g.Natives, "\t"+EV+":\n")            // E0
-		temp = g.NewTemp()                                      // t6
+		conca1 += newAuxTemp + " = stack[(int)" + temp + "];\n"
+		g.Natives = append(g.Natives, "\t"+EV+":\n")
+		temp = g.NewTemp()
 		g.Natives = append(g.Natives, "\t"+temp+" = heap[(int)"+newAuxTemp+"];\n")
 		g.Natives = append(g.Natives, "\tif ("+temp+" == -1) goto "+EF+";\n")
 		g.Natives = append(g.Natives, "\theap[(int)H] = "+temp+";\n")
@@ -401,8 +395,8 @@ func (g *Generator) GenerateConcatString() {
 		g.Natives = append(g.Natives, "\tgoto "+EV+";\n")
 		g.Natives = append(g.Natives, "\t"+EF+":\n")
 		g.Natives = append(g.Natives, "\t"+conca1+"\n")
-		newLabel := g.NewLabel() // L2
-		EV = g.NewLabel()        // L3
+		newLabel := g.NewLabel()
+		EV = g.NewLabel()
 		g.Natives = append(g.Natives, "\t"+EV+":")
 		g.Natives = append(g.Natives, "\t"+temp+" = heap[(int)"+newAuxTemp+"];\n")
 		g.Natives = append(g.Natives, "\tif ("+temp+" == -1) goto "+newLabel+";\n")
@@ -424,35 +418,30 @@ func (g *Generator) GenerateConcatString() {
 func (g *Generator) GenerateCompareString() {
 	if g.CompareStringFlag {
 		conca := ""
-		// conca1 := "" // conca1
-		temp := g.NewTemp()       // t2
-		auxTemp := g.NewTemp()    // t3
-		newTemp := g.NewTemp()    // t4
-		newLabel0 := g.NewLabel() // L0
-		newLabel1 := g.NewLabel() // L1
-		newLabel2 := g.NewLabel() // L2
-		newLabel3 := g.NewLabel() // L3
+
+		temp := g.NewTemp()
+		auxTemp := g.NewTemp()
+		newTemp := g.NewTemp()
+
+		newLabel0 := g.NewLabel()
+		newLabel1 := g.NewLabel()
+		newLabel2 := g.NewLabel()
+		newLabel3 := g.NewLabel()
 
 		g.Natives = append(g.Natives, "void _compare_string_() {\n")
-
 		g.Natives = append(g.Natives, "\t"+temp+" = P + 1;\n")
 		g.Natives = append(g.Natives, "\t"+auxTemp+" = stack[(int)"+temp+"];\n")
 		g.Natives = append(g.Natives, "\t"+temp+" = "+temp+" + 1;\n")
 		g.Natives = append(g.Natives, "\t"+newTemp+" = stack[(int)"+temp+"];\n")
 		g.Natives = append(g.Natives, "\t"+newLabel1+":\n")
-
-		temp = g.NewTemp() // t5
-
+		temp = g.NewTemp()
 		g.Natives = append(g.Natives, "\t"+temp+" = heap[(int)"+auxTemp+"];\n")
 		conca += auxTemp + " = " + auxTemp + " + 1;\n"
-
-		auxTemp = g.NewTemp() // t6
-
+		auxTemp = g.NewTemp()
 		g.Natives = append(g.Natives, "\t"+auxTemp+" = heap[(int)"+newTemp+"];\n")
 		g.Natives = append(g.Natives, "\tif ("+temp+" != "+auxTemp+") goto "+newLabel3+";\n")
 		g.Natives = append(g.Natives, "\tif ("+temp+" == -1) goto "+newLabel2+";\n")
 		g.Natives = append(g.Natives, "\t"+conca+"\n")
-
 		g.Natives = append(g.Natives, "\t"+newTemp+" = "+newTemp+" + 1;\n")
 		g.Natives = append(g.Natives, "\tgoto "+newLabel1+";\n")
 		g.Natives = append(g.Natives, "\t"+newLabel2+":\n")
@@ -470,11 +459,9 @@ func (g *Generator) GenerateCompareString() {
 
 func (g *Generator) StringToNumber() {
 	if g.StringToNumberFlag {
-		// Input temp
 		paramTemp1 := g.NewTemp()
 		g.StringToNumberInput = paramTemp1
 
-		// resultado guardado en resultTemp
 		resultTemp := g.NewTemp()
 		g.StringToNumberOut = resultTemp
 
@@ -555,11 +542,9 @@ func (g *Generator) StringToNumber() {
 
 func (g *Generator) NumberToString() {
 	if g.NumberToStringFlag {
-		// pasar a param el valor a convertir
 		param := g.NewTemp()
 		g.NumberToStringInput = param
 
-		// resultado guardar en rTemp
 		rTemp := g.NewTemp()
 		g.NumberToStringOut = rTemp
 

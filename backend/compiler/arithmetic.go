@@ -52,7 +52,7 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				})
 
 				return structures.Primitive{
-					Value:    "Nil",
+					Value:    "9999999827968.00",
 					DataType: NilType,
 				}
 			}
@@ -138,7 +138,7 @@ func (v *Visitor) VisitArithmeticOperationExpr(ctx *parser.ArithmeticOperationEx
 				})
 
 				return structures.Primitive{
-					Value:    "Nil",
+					Value:    "9999999827968.00",
 					DataType: NilType,
 				}
 			}
